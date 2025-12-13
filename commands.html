@@ -1,0 +1,705 @@
+<!doctype html><html lang='en'>
+<head><meta charset='UTF-8'></head>
+<body><h3>Open Brush API Commands</h3><p>To run commands a request to this url with http://localhost:40074/api/v1?</p>
+<p>Commands are querystring parameters: commandname=parameters</p>
+<p>Separate multiple commands with &</p>
+<p>Example: <a href='http://localhost:40074/api/v1?brush.turn.y=45&brush.draw=1'>http://localhost:40074/api/v1?brush.turn.y=45&brush.draw=1</a></p>
+<dl>
+<dt><strong>draw.paths</strong> (string jsonString)
+ <a href="/api/v1?draw.paths=[[0,0,0],[1,0,0],[1,1,0]],[[0,0,-1],[-1,0,-1],[-1,1,-1]]" target="_blank">Try it</a></dt>
+<dd>Draws a series of paths at the current brush position [[[x1,y1,z1],[x2,y2,z2], etc...]]. Does not move the brush position<br><br></dd>
+<dt><strong>brush.pathsmoothing</strong> (float amount)
+ <a href="/api/v1?brush.pathsmoothing=0.1" target="_blank">Try it</a></dt>
+<dd>Sets the amount of smoothing applied to brush paths at corners. Default is 0.10 turns off smoothing and you'll have to ensure you create enough points or else the path may end up smoothed to nothing.<br><br></dd>
+<dt><strong>draw.path</strong> (string jsonString)
+ <a href="/api/v1?draw.path=[0,0,0],[1,0,0],[1,1,0],[0,1,0]" target="_blank">Try it</a></dt>
+<dd>Draws a path at the current brush position [x1,y1,z1],[x2,y2,z2], etc.... Does not move the brush position<br><br></dd>
+<dt><strong>draw.stroke</strong> (string jsonString)
+ <a href="/api/v1?draw.stroke=[0,0,0,0,180,90,.75],[1,0,0,0,180,90,.75],[1,1,0,0,180,90,.75],[0,1,0,0,180,90,.75]" target="_blank">Try it</a></dt>
+<dd>Draws an exact brush stroke including orientation and pressure<br><br></dd>
+<dt><strong>draw.polygon</strong> (int sides, float radius, float angle)
+ <a href="/api/v1?draw.polygon=5,2.5,45" target="_blank">Try it</a></dt>
+<dd>Draws a polygon at the current brush position. Does not move the brush position<br><br></dd>
+<dt><strong>draw.text</strong> (string text)
+ <a href="/api/v1?draw.text=hello world" target="_blank">Try it</a></dt>
+<dd>Draws the characters supplied at the current brush position<br><br></dd>
+<dt><strong>draw.opentypetext</strong> (string text, string fontPath)
+ <a href="/api/v1?draw.opentypetext=hello world,hello world,calibri.ttf" target="_blank">Try it</a></dt>
+<dd>Same as draw text but uses an opentype font (the font should be in a Fonts folder in your Open Brush folder)<br><br></dd>
+<dt><strong>draw.svg</strong> (string svg)
+ <a href="/api/v1?draw.svg" target="_blank">Try it</a></dt>
+<dd>Draws an entire SVG document<br><br></dd>
+<dt><strong>draw.svg.path</strong> (string svgPath)
+ <a href="/api/v1?draw.svg.path=M 184,199 116,170 53,209.6 60,136.2 4.3,88" target="_blank">Try it</a></dt>
+<dd>Draws the path supplied as an SVG Path string at the current brush position<br><br></dd>
+<dt><strong>brush.type</strong> (string brushType)
+ <a href="/api/v1?brush.type=ink" target="_blank">Try it</a></dt>
+<dd>Changes the brush. brushType can either be the brush name or it's guid. brushes are listed in the /help screen<br><br></dd>
+<dt><strong>color.add.hsv</strong> (Vector3 hsv)
+ <a href="/api/v1?color.add.hsv=0.1,0.2,0.3" target="_blank">Try it</a></dt>
+<dd>Adds the supplied values to the current color. Values are hue, saturation and value<br><br></dd>
+<dt><strong>color.add.rgb</strong> (Vector3 rgb)
+ <a href="/api/v1?color.add.rgb=0.1,0.2,0.3" target="_blank">Try it</a></dt>
+<dd>Adds the supplied values to the current color. Values are red green and blue<br><br></dd>
+<dt><strong>color.set.rgb</strong> (Vector3 rgb)
+ <a href="/api/v1?color.set.rgb=0.1,0.2,0.3" target="_blank">Try it</a></dt>
+<dd>Sets the current color. Values are red, green and blue<br><br></dd>
+<dt><strong>color.set.hsv</strong> (Vector3 hsv)
+ <a href="/api/v1?color.set.hsv=0.1,0.2,0.3" target="_blank">Try it</a></dt>
+<dd>Sets the current color. Values are hue, saturation and value<br><br></dd>
+<dt><strong>color.set.html</strong> (string color)
+ <a href="/api/v1?color.set.html=darkblue" target="_blank">Try it</a></dt>
+<dd>Sets the current color. colorString can either be a hex value or a css color name.<br><br></dd>
+<dt><strong>brush.size.set</strong> (float size)
+ <a href="/api/v1?brush.size.set=0.5" target="_blank">Try it</a></dt>
+<dd>Sets the current brush size<br><br></dd>
+<dt><strong>brush.size.add</strong> (float amount)
+ <a href="/api/v1?brush.size.add=0.1" target="_blank">Try it</a></dt>
+<dd>Changes the current brush size by the given amount<br><br></dd>
+<dt><strong>draw.camerapath</strong> (int index, float step)
+ <a href="/api/v1?draw.camerapath=0" target="_blank">Try it</a></dt>
+<dd>Draws along a camera path with the current brush settings<br><br></dd>
+<dt><strong>model.webimport</strong> (string url)
+ <a href="/api/v1?model.webimport=Andy\Andy.obj" target="_blank">Try it</a></dt>
+<dd>Imports a model given a url or a filename in Media Library\Models (Models loaded from a url are saved locally first)<br><br></dd>
+<dt><strong>import.webmodel</strong> (string url)
+ <a href="/api/v1?import.webmodel=Andy\Andy.obj" target="_blank">Try it</a></dt>
+<dd>Same as model.webimport (backwards compatibility for poly.pizza)<br><br></dd>
+<dt><strong>model.icosaimport</strong> (string modelId)
+ <a href="/api/v1?model.icosaimport=9L2Lt-sxzdp" target="_blank">Try it</a></dt>
+<dd>Imports a model from the Icosa Gallery given a model id<br><br></dd>
+<dt><strong>model.import</strong> (string location)
+ <a href="/api/v1?model.import=Andy.glb" target="_blank">Try it</a></dt>
+<dd>Imports a model given a filename in Media Library\Models (Models loaded from a url are saved locally first)<br><br></dd>
+<dt><strong>model.breakapart</strong> (int index)
+ <a href="/api/v1?model.breakapart=0" target="_blank">Try it</a></dt>
+<dd>Breaks apart a model<br><br></dd>
+<dt><strong>save.overwrite</strong> 
+ <a href="/api/v1?save.overwrite" target="_blank">Try it</a></dt>
+<dd>Save the current scene overwriting the last save if it exists<br><br></dd>
+<dt><strong>save.as</strong> (string filename)
+ <a href="/api/v1?save.as=newSketch" target="_blank">Try it</a></dt>
+<dd>Saves the current scene under a new name. (No need to include the .tilt suffix)<br><br></dd>
+<dt><strong>save.new</strong> 
+ <a href="/api/v1?save.new" target="_blank">Try it</a></dt>
+<dd>Saves the current scene in a new slot<br><br></dd>
+<dt><strong>save.selected</strong> 
+ <a href="/api/v1?save.selected" target="_blank">Try it</a></dt>
+<dd>Saves the current selected strokes in a new slot<br><br></dd>
+<dt><strong>icosa.upload</strong> 
+ <a href="/api/v1?icosa.upload" target="_blank">Try it</a></dt>
+<dd>Uploads it to the Icosa Gallery<br><br></dd>
+<dt><strong>export.all</strong> 
+ <a href="/api/v1?export.all" target="_blank">Try it</a></dt>
+<dd>Exports all the scenes in the users's sketch folder<br><br></dd>
+<dt><strong>drafting.visible</strong> 
+ <a href="/api/v1?drafting.visible" target="_blank">Try it</a></dt>
+<dd>Shows all strokes made with the drafting brush fully opaque<br><br></dd>
+<dt><strong>drafting.transparent</strong> 
+ <a href="/api/v1?drafting.transparent" target="_blank">Try it</a></dt>
+<dd>Shows all strokes made with the drafting brush semi-transparent<br><br></dd>
+<dt><strong>drafting.hidden</strong> 
+ <a href="/api/v1?drafting.hidden" target="_blank">Try it</a></dt>
+<dd>Hides all strokes made with the drafting brush<br><br></dd>
+<dt><strong>load.user</strong> (int slot)
+ <a href="/api/v1?load.user=2" target="_blank">Try it</a></dt>
+<dd>Loads the sketch from the user's sketch folder given an index (0 being most recent)<br><br></dd>
+<dt><strong>load.featured</strong> (int slot)
+ <a href="/api/v1?load.featured=2" target="_blank">Try it</a></dt>
+<dd>Loads the sketch in the given slot number from the featured sketch list<br><br></dd>
+<dt><strong>load.liked</strong> (int slot)
+ <a href="/api/v1?load.liked=2" target="_blank">Try it</a></dt>
+<dd>Loads the sketch in the given slot number from the user's liked sketches<br><br></dd>
+<dt><strong>load.drive</strong> (int slot)
+ <a href="/api/v1?load.drive=2" target="_blank">Try it</a></dt>
+<dd>Loads the sketch in the given slot number from the user's Google Drive<br><br></dd>
+<dt><strong>load.named</strong> (string filename)
+ <a href="/api/v1?load.named=Untitled_1" target="_blank">Try it</a></dt>
+<dd>Loads the sketch with the given name from the user's sketch folder<br><br></dd>
+<dt><strong>merge.named</strong> (string filename)
+ <a href="/api/v1?merge.named=Untitled_1" target="_blank">Try it</a></dt>
+<dd>Loads the sketch with the given name from the user's sketch folder<br><br></dd>
+<dt><strong>new</strong> 
+ <a href="/api/v1?new" target="_blank">Try it</a></dt>
+<dd>Clears the current sketch<br><br></dd>
+<dt><strong>symmetry.mirror</strong> 
+ <a href="/api/v1?symmetry.mirror" target="_blank">Try it</a></dt>
+<dd>Sets the symmetry mode to 'mirror'<br><br></dd>
+<dt><strong>symmetry.multimirror</strong> 
+ <a href="/api/v1?symmetry.multimirror" target="_blank">Try it</a></dt>
+<dd>Sets the symmetry mode to 'multimirror'<br><br></dd>
+<dt><strong>twohandeded.toggle</strong> 
+ <a href="/api/v1?twohandeded.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles painting with both hands at once<br><br></dd>
+<dt><strong>straightedge.toggle</strong> 
+ <a href="/api/v1?straightedge.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles the straight edge tool on or off<br><br></dd>
+<dt><strong>autoorient.toggle</strong> 
+ <a href="/api/v1?autoorient.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles autoorientate on or off<br><br></dd>
+<dt><strong>undo</strong> 
+ <a href="/api/v1?undo" target="_blank">Try it</a></dt>
+<dd>Undoes the last action<br><br></dd>
+<dt><strong>redo</strong> 
+ <a href="/api/v1?redo" target="_blank">Try it</a></dt>
+<dd>Redo the last action<br><br></dd>
+<dt><strong>panels.reset</strong> 
+ <a href="/api/v1?panels.reset" target="_blank">Try it</a></dt>
+<dd>Reset the position of all panels<br><br></dd>
+<dt><strong>sketch.origin</strong> 
+ <a href="/api/v1?sketch.origin" target="_blank">Try it</a></dt>
+<dd>Enables the sketch origin tool<br><br></dd>
+<dt><strong>viewonly.toggle</strong> 
+ <a href="/api/v1?viewonly.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles 'view only' mode on or off<br><br></dd>
+<dt><strong>spectator.toggle</strong> 
+ <a href="/api/v1?spectator.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles the spectator camera<br><br></dd>
+<dt><strong>spectator.on</strong> 
+ <a href="/api/v1?spectator.on" target="_blank">Try it</a></dt>
+<dd>Turns the spectator camera on<br><br></dd>
+<dt><strong>spectator.off</strong> 
+ <a href="/api/v1?spectator.off" target="_blank">Try it</a></dt>
+<dd>Turns the spectator camera off<br><br></dd>
+<dt><strong>autosimplify.toggle</strong> 
+ <a href="/api/v1?autosimplify.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles 'auto-simplify' mode on or off<br><br></dd>
+<dt><strong>export.current</strong> 
+ <a href="/api/v1?export.current" target="_blank">Try it</a></dt>
+<dd>Exports the current sketch to the user's Exports folder<br><br></dd>
+<dt><strong>showfolder.sketch</strong> (int index)
+ <a href="/api/v1?showfolder.sketch" target="_blank">Try it</a></dt>
+<dd>Opens the user's Sketches folder on the desktop<br><br></dd>
+<dt><strong>guides.disable</strong> 
+ <a href="/api/v1?guides.disable" target="_blank">Try it</a></dt>
+<dd>Toggles guides on and off<br><br></dd>
+<dt><strong>disco</strong> 
+ <a href="/api/v1?disco" target="_blank">Try it</a></dt>
+<dd>Starts a party<br><br></dd>
+<dt><strong>selection.duplicate</strong> 
+ <a href="/api/v1?selection.duplicate" target="_blank">Try it</a></dt>
+<dd>Create a duplicate of the current selection (uses symmetry mirrors if active<br><br></dd>
+<dt><strong>selection.delete</strong> 
+ <a href="/api/v1?selection.delete" target="_blank">Try it</a></dt>
+<dd>Deletes the current selection<br><br></dd>
+<dt><strong>selection.group</strong> 
+ <a href="/api/v1?selection.group" target="_blank">Try it</a></dt>
+<dd>Groups (or ungroups) the current selection<br><br></dd>
+<dt><strong>export.selected</strong> 
+ <a href="/api/v1?export.selected" target="_blank">Try it</a></dt>
+<dd>Exports the selected strokes to the user's Media Library<br><br></dd>
+<dt><strong>camerapath.render</strong> 
+ <a href="/api/v1?camerapath.render" target="_blank">Try it</a></dt>
+<dd>Renders the current camera path to a video<br><br></dd>
+<dt><strong>profiling.toggle</strong> 
+ <a href="/api/v1?profiling.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles profiling mode on or off<br><br></dd>
+<dt><strong>settings.toggle</strong> 
+ <a href="/api/v1?settings.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles the settings panel on or off<br><br></dd>
+<dt><strong>mirror.summon</strong> 
+ <a href="/api/v1?mirror.summon" target="_blank">Try it</a></dt>
+<dd>Summons the mirror origin to the user's position<br><br></dd>
+<dt><strong>selection.invert</strong> 
+ <a href="/api/v1?selection.invert" target="_blank">Try it</a></dt>
+<dd>Inverts the current selection<br><br></dd>
+<dt><strong>select.all</strong> 
+ <a href="/api/v1?select.all" target="_blank">Try it</a></dt>
+<dd>Selects all strokes and widgets on the current layer<br><br></dd>
+<dt><strong>select.none</strong> 
+ <a href="/api/v1?select.none" target="_blank">Try it</a></dt>
+<dd>Deselects all strokes and widgets on the current layer<br><br></dd>
+<dt><strong>selection.flip</strong> 
+ <a href="/api/v1?selection.flip" target="_blank">Try it</a></dt>
+<dd>Mirrors the current selection<br><br></dd>
+<dt><strong>postprocessing.toggle</strong> 
+ <a href="/api/v1?postprocessing.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles post-processing effects on or off<br><br></dd>
+<dt><strong>watermark.toggle</strong> 
+ <a href="/api/v1?watermark.toggle" target="_blank">Try it</a></dt>
+<dd>Toggles the watermark on or off<br><br></dd>
+<dt><strong>camerapath.togglevisuals</strong> 
+ <a href="/api/v1?camerapath.togglevisuals" target="_blank">Try it</a></dt>
+<dd>Toggles the camera path visuals on or off<br><br></dd>
+<dt><strong>camerapath.togglepreview</strong> 
+ <a href="/api/v1?camerapath.togglepreview" target="_blank">Try it</a></dt>
+<dd>Toggles the camera path preview on or off<br><br></dd>
+<dt><strong>camerapath.delete</strong> 
+ <a href="/api/v1?camerapath.delete" target="_blank">Try it</a></dt>
+<dd>Deletes the current camera path<br><br></dd>
+<dt><strong>camerapath.record</strong> 
+ <a href="/api/v1?camerapath.record" target="_blank">Try it</a></dt>
+<dd>Starts recording a camera path<br><br></dd>
+<dt><strong>camerapath.setactive</strong> (int index)
+ <a href="/api/v1?camerapath.setactive" target="_blank">Try it</a></dt>
+<dd>Sets the active camera path<br><br></dd>
+<dt><strong>stroke.delete</strong> (int index)
+ <a href="/api/v1?stroke.delete=2" target="_blank">Try it</a></dt>
+<dd>Delete a stroke by index<br><br></dd>
+<dt><strong>stroke.select</strong> (int index)
+ <a href="/api/v1?stroke.select=2" target="_blank">Try it</a></dt>
+<dd>Select a stroke by index.<br><br></dd>
+<dt><strong>strokes.select</strong> (int from, int to)
+ <a href="/api/v1?strokes.select=1,4" target="_blank">Try it</a></dt>
+<dd>Select multiple strokes by index.<br><br></dd>
+<dt><strong>selection.recolor</strong> (Boolean jitter)
+ <a href="/api/v1?selection.recolor" target="_blank">Try it</a></dt>
+<dd>Recolors the currently selected strokes<br><br></dd>
+<dt><strong>strokes.move.to</strong> (int start, int end, Vector3 position)
+ <a href="/api/v1?strokes.move.to=1,2,5,12,-4" target="_blank">Try it</a></dt>
+<dd>Moves several strokes to the given position<br><br></dd>
+<dt><strong>strokes.move.by</strong> (int start, int end, Vector3 translation)
+ <a href="/api/v1?strokes.move.by=1,2,5,12,-4" target="_blank">Try it</a></dt>
+<dd>Moves several strokes to the given coordinates<br><br></dd>
+<dt><strong>strokes.rotate.by</strong> (int start, int end, float angle)
+ <a href="/api/v1?strokes.rotate.by=1,2,5,12,-4" target="_blank">Try it</a></dt>
+<dd>Rotates multiple brushstrokes around the current brush position<br><br></dd>
+<dt><strong>strokes.scale.by</strong> (int start, int end, float scale)
+ <a href="/api/v1?strokes.scale.by=1,2,0.5" target="_blank">Try it</a></dt>
+<dd>Scales multiple brushstrokes around the current brush position<br><br></dd>
+<dt><strong>selection.rebrush</strong> (Boolean jitter)
+ <a href="/api/v1?selection.rebrush=true" target="_blank">Try it</a></dt>
+<dd>Rebrushes the currently selected strokes<br><br></dd>
+<dt><strong>selection.resize</strong> (Boolean jitter)
+ <a href="/api/v1?selection.resize" target="_blank">Try it</a></dt>
+<dd>Changes the brush size the currently selected strokes<br><br></dd>
+<dt><strong>selection.trim</strong> (int count)
+ <a href="/api/v1?selection.trim=4" target="_blank">Try it</a></dt>
+<dd>Removes a number of points from the currently selected strokes<br><br></dd>
+<dt><strong>selection.points.perlin</strong> (string axis, Vector3 scale)
+ <a href="/api/v1?selection.points.perlin=y,0.5,2,0.5" target="_blank">Try it</a></dt>
+<dd>Moves the position of all control points in the selection using a noise function<br><br></dd>
+<dt><strong>stroke.points.quantize</strong> (Vector3 grid)
+ <a href="/api/v1?stroke.points.quantize=2,2,2" target="_blank">Try it</a></dt>
+<dd>Snaps all the points in selected strokes to a grid (buggy)<br><br></dd>
+<dt><strong>stroke.join</strong> 
+ <a href="/api/v1?stroke.join" target="_blank">Try it</a></dt>
+<dd>Joins a stroke with the previous one<br><br></dd>
+<dt><strong>strokes.join</strong> (int from, int to)
+ <a href="/api/v1?strokes.join=1,4" target="_blank">Try it</a></dt>
+<dd>Joins all strokes between the two indices (inclusive)<br><br></dd>
+<dt><strong>stroke.add</strong> (int index)
+ <a href="/api/v1?stroke.add=2" target="_blank">Try it</a></dt>
+<dd>Adds a point at the current brush position to the specified stroke<br><br></dd>
+<dt><strong>symmetry.type</strong> (string type)
+ <a href="/api/v1?symmetry.type=wallpaper" target="_blank">Try it</a></dt>
+<dd>Sets the custom symmetry type (Currently either 'point' or 'wallpaper'<br><br></dd>
+<dt><strong>symmetry.pointfamily</strong> (string family)
+ <a href="/api/v1?symmetry.pointfamily=C4v" target="_blank">Try it</a></dt>
+<dd>Sets the custom point symmetry family (Any of Cn, Cnv, Cnh, Sn, Dn, Dnh, Dnd, T, Th, Td, O, Oh, I, Ih) Replace n with a number to also set the order.<br><br></dd>
+<dt><strong>symmetry.wallpapergroup</strong> (string group)
+ <a href="/api/v1?symmetry.wallpapergroup=p6m" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper symmetry group (Any of p1, pg, cm, pm, p6, p6m, p3, p3m1, p31m, p4, p4m, p4g, p2, pgg, pmg, pmm, cmm)<br><br></dd>
+<dt><strong>symmetry.pointorder</strong> (int order)
+ <a href="/api/v1?symmetry.pointorder=5" target="_blank">Try it</a></dt>
+<dd>Sets the custom point symmetry order<br><br></dd>
+<dt><strong>symmetry.wallpaperrepeats</strong> (int x, int y)
+ <a href="/api/v1?symmetry.wallpaperrepeats=4,4" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper symmetry repeats<br><br></dd>
+<dt><strong>symmetry.wallpaperscale</strong> (float x, float y)
+ <a href="/api/v1?symmetry.wallpaperscale=0.5,1" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper symmetry scale<br><br></dd>
+<dt><strong>symmetry.wallpaperskew</strong> (float x, float y)
+ <a href="/api/v1?symmetry.wallpaperskew=1,0.5" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper symmetry skew<br><br></dd>
+<dt><strong>symmetry.colorshift.hue</strong> (string mode, float amplitude, float frequency)
+ <a href="/api/v1?symmetry.colorshift.hue=Noise,1,2" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper color shift hue (mode is one of SineWave, SquareWave, SawtoothWave, TriangleWave, Noise)<br><br></dd>
+<dt><strong>symmetry.colorshift.saturation</strong> (string mode, float amplitude, float frequency)
+ <a href="/api/v1?symmetry.colorshift.saturation=SineWave,0.1,1" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper color shift saturation (mode is one of SineWave, SquareWave, SawtoothWave, TriangleWave, Noise)<br><br></dd>
+<dt><strong>symmetry.colorshift.brightness</strong> (string mode, float amplitude, float frequency)
+ <a href="/api/v1?symmetry.colorshift.brightness=SquareWave,0.5,6" target="_blank">Try it</a></dt>
+<dd>Sets the custom wallpaper color shift brightness (mode is one of SineWave, SquareWave, SawtoothWave, TriangleWave, Noise)<br><br></dd>
+<dt><strong>multiplayer.join</strong> (string nickname, string roomName, Boolean isPrivate, int maxPlayers, Boolean silentRoom, Boolean viewOnlyRoom)
+ <a href="/api/v1?multiplayer.join" target="_blank">Try it</a></dt>
+<dd>Joins a multiplayer room<br><br></dd>
+<dt><strong>multiplayer.leave</strong> 
+ <a href="/api/v1?multiplayer.leave" target="_blank">Try it</a></dt>
+<dd>Leaves a multiplayer room<br><br></dd>
+<dt><strong>tool.sketchsurface</strong> 
+ <a href="/api/v1?tool.sketchsurface" target="_blank">Try it</a></dt>
+<dd>Activates the SketchSurface<br><br></dd>
+<dt><strong>tool.selection</strong> 
+ <a href="/api/v1?tool.selection" target="_blank">Try it</a></dt>
+<dd>Activates the Selection Tool<br><br></dd>
+<dt><strong>tool.colorpicker</strong> 
+ <a href="/api/v1?tool.colorpicker" target="_blank">Try it</a></dt>
+<dd>Activates the Color Picker<br><br></dd>
+<dt><strong>tool.brushpicker</strong> 
+ <a href="/api/v1?tool.brushpicker" target="_blank">Try it</a></dt>
+<dd>Activates the Brush Picker<br><br></dd>
+<dt><strong>tool.brushandcolorpicker</strong> 
+ <a href="/api/v1?tool.brushandcolorpicker" target="_blank">Try it</a></dt>
+<dd>Activates the Brush And Color Picker<br><br></dd>
+<dt><strong>tool.sketchorigin</strong> 
+ <a href="/api/v1?tool.sketchorigin" target="_blank">Try it</a></dt>
+<dd>Activates the SketchOrigin Tool<br><br></dd>
+<dt><strong>tool.autogif</strong> 
+ <a href="/api/v1?tool.autogif" target="_blank">Try it</a></dt>
+<dd>Activates the AutoGif Tool<br><br></dd>
+<dt><strong>tool.canvas</strong> 
+ <a href="/api/v1?tool.canvas" target="_blank">Try it</a></dt>
+<dd>Activates the Canvas Tool<br><br></dd>
+<dt><strong>tool.transform</strong> 
+ <a href="/api/v1?tool.transform" target="_blank">Try it</a></dt>
+<dd>Activates the Transform Tool<br><br></dd>
+<dt><strong>tool.stamp</strong> 
+ <a href="/api/v1?tool.stamp" target="_blank">Try it</a></dt>
+<dd>Activates the Stamp Tool<br><br></dd>
+<dt><strong>tool.freepaint</strong> 
+ <a href="/api/v1?tool.freepaint" target="_blank">Try it</a></dt>
+<dd>Activates the FreePaint Tool<br><br></dd>
+<dt><strong>tool.eraser</strong> 
+ <a href="/api/v1?tool.eraser" target="_blank">Try it</a></dt>
+<dd>Activates the Eraser Tool<br><br></dd>
+<dt><strong>tool.screenshot</strong> 
+ <a href="/api/v1?tool.screenshot" target="_blank">Try it</a></dt>
+<dd>Activates the Screenshot Tool<br><br></dd>
+<dt><strong>tool.dropper</strong> 
+ <a href="/api/v1?tool.dropper" target="_blank">Try it</a></dt>
+<dd>Activates the Dropper Tool<br><br></dd>
+<dt><strong>tool.saveicon</strong> 
+ <a href="/api/v1?tool.saveicon" target="_blank">Try it</a></dt>
+<dd>Activates the SaveIcon Tool<br><br></dd>
+<dt><strong>tool.threedofviewing</strong> 
+ <a href="/api/v1?tool.threedofviewing" target="_blank">Try it</a></dt>
+<dd>Activates the ThreeDofViewing Tool<br><br></dd>
+<dt><strong>tool.multicam</strong> 
+ <a href="/api/v1?tool.multicam" target="_blank">Try it</a></dt>
+<dd>Activates the MultiCam Tool<br><br></dd>
+<dt><strong>tool.teleport</strong> 
+ <a href="/api/v1?tool.teleport" target="_blank">Try it</a></dt>
+<dd>Activates the Teleport Tool<br><br></dd>
+<dt><strong>tool.repaint</strong> 
+ <a href="/api/v1?tool.repaint" target="_blank">Try it</a></dt>
+<dd>Activates the Repaint Tool<br><br></dd>
+<dt><strong>tool.recolor</strong> 
+ <a href="/api/v1?tool.recolor" target="_blank">Try it</a></dt>
+<dd>Activates the Recolor Tool<br><br></dd>
+<dt><strong>tool.rebrush</strong> 
+ <a href="/api/v1?tool.rebrush" target="_blank">Try it</a></dt>
+<dd>Activates the Rebrush Tool<br><br></dd>
+<dt><strong>tool.pin</strong> 
+ <a href="/api/v1?tool.pin" target="_blank">Try it</a></dt>
+<dd>Activates the Pin Tool<br><br></dd>
+<dt><strong>tool.camerapath</strong> 
+ <a href="/api/v1?tool.camerapath" target="_blank">Try it</a></dt>
+<dd>Activates the CameraPath Tool<br><br></dd>
+<dt><strong>tool.fly</strong> 
+ <a href="/api/v1?tool.fly" target="_blank">Try it</a></dt>
+<dd>Activates the Fly Tool<br><br></dd>
+<dt><strong>snap.angle</strong> (string angle)
+ <a href="/api/v1?snap.angle=15" target="_blank">Try it</a></dt>
+<dd>Sets the current snapping angle. Angle must be a supported value (15, 30, 45, 60, 75 or 90)<br><br></dd>
+<dt><strong>snap.grid</strong> (string size)
+ <a href="/api/v1?snap.grid=5" target="_blank">Try it</a></dt>
+<dd>Sets the current snapping grid. Size must be a supported value (0.1, 0.25, 0.5 ,1, 2, 3, 5<br><br></dd>
+<dt><strong>selection.snap.angles</strong> 
+ <a href="/api/v1?selection.snap.angles" target="_blank">Try it</a></dt>
+<dd>Applies the current snap angle to all selected objects<br><br></dd>
+<dt><strong>selection.snap.positions</strong> 
+ <a href="/api/v1?selection.snap.positions" target="_blank">Try it</a></dt>
+<dd>Applies the current snap grid to all selected objects<br><br></dd>
+<dt><strong>selection.align</strong> (string axis, string alignBy)
+ <a href="/api/v1?selection.align=x,center" target="_blank">Try it</a></dt>
+<dd>Aligns all selected objects to the given axis using their minimum, center or maximum points<br><br></dd>
+<dt><strong>listenfor.strokes</strong> (string url)
+ <a href="/api/v1?listenfor.strokes=http://localhost:8000/" target="_blank">Try it</a></dt>
+<dd>Adds the url of an app that wants to receive the data for a stroke as each one is finished<br><br></dd>
+<dt><strong>showfolder.scripts</strong> 
+ <a href="/api/v1?showfolder.scripts" target="_blank">Try it</a></dt>
+<dd>Opens the user's Scripts folder on the desktop<br><br></dd>
+<dt><strong>showfolder.exports</strong> 
+ <a href="/api/v1?showfolder.exports" target="_blank">Try it</a></dt>
+<dd>Opens the user's Exports folder on the desktop<br><br></dd>
+<dt><strong>spectator.move.to</strong> (Vector3 position)
+ <a href="/api/v1?spectator.move.to=1,1,1" target="_blank">Try it</a></dt>
+<dd>Moves the spectator camera to the given position<br><br></dd>
+<dt><strong>spectator.move.by</strong> (Vector3 amount)
+ <a href="/api/v1?spectator.move.by=1,1,1" target="_blank">Try it</a></dt>
+<dd>Moves the spectator camera by the given amount<br><br></dd>
+<dt><strong>user.move.to</strong> (Vector3 position)
+ <a href="/api/v1?user.move.to=1,1,1" target="_blank">Try it</a></dt>
+<dd>Moves the user to the given position<br><br></dd>
+<dt><strong>user.move.by</strong> (Vector3 amount)
+ <a href="/api/v1?user.move.by=1,1,1" target="_blank">Try it</a></dt>
+<dd>Moves the user by the given amount<br><br></dd>
+<dt><strong>spectator.turn.y</strong> (float angle)
+ <a href="/api/v1?spectator.turn.y=45" target="_blank">Try it</a></dt>
+<dd>Rotates the spectator camera left or right.<br><br></dd>
+<dt><strong>spectator.turn.x</strong> (float angle)
+ <a href="/api/v1?spectator.turn.x=45" target="_blank">Try it</a></dt>
+<dd>Rotates the spectator camera up or down.<br><br></dd>
+<dt><strong>spectator.turn.z</strong> (float angle)
+ <a href="/api/v1?spectator.turn.z=45" target="_blank">Try it</a></dt>
+<dd>Tilts the angle of the spectator camera clockwise or anticlockwise.<br><br></dd>
+<dt><strong>user.turn.y</strong> (float angle)
+ <a href="/api/v1?user.turn.y=45" target="_blank">Try it</a></dt>
+<dd>Rotates the user camera left or right.<br><br></dd>
+<dt><strong>user.turn.x</strong> (float angle)
+ <a href="/api/v1?user.turn.x=45" target="_blank">Try it</a></dt>
+<dd>Rotates the user camera up or down. (monoscopic mode only)<br><br></dd>
+<dt><strong>user.turn.z</strong> (float angle)
+ <a href="/api/v1?user.turn.z=45" target="_blank">Try it</a></dt>
+<dd>Tilts the angle of the user camera clockwise or anticlockwise. (monoscopic mode only)<br><br></dd>
+<dt><strong>scene.scale.to</strong> (float scale)
+ <a href="/api/v1?scene.scale.to=0.5" target="_blank">Try it</a></dt>
+<dd>Sets the scene scale to the given value<br><br></dd>
+<dt><strong>scene.scale.by</strong> (float amount)
+ <a href="/api/v1?scene.scale.by=1.5" target="_blank">Try it</a></dt>
+<dd>Scales the scene by the given amount<br><br></dd>
+<dt><strong>spectator.direction</strong> (Vector3 direction)
+ <a href="/api/v1?spectator.direction=45,45,0" target="_blank">Try it</a></dt>
+<dd>Points the spectator camera to look in the specified direction. Angles are given in x,y,z degrees<br><br></dd>
+<dt><strong>user.direction</strong> (Vector3 direction)
+ <a href="/api/v1?user.direction=45,45,0" target="_blank">Try it</a></dt>
+<dd>Points the user camera to look in the specified direction. Angles are given in x,y,z degrees. (Monoscopic mode only)<br><br></dd>
+<dt><strong>spectator.look.at</strong> (Vector3 position)
+ <a href="/api/v1?spectator.look.at=1,2,3" target="_blank">Try it</a></dt>
+<dd>Points the spectator camera towards a specific point<br><br></dd>
+<dt><strong>user.look.at</strong> (Vector3 direction)
+ <a href="/api/v1?user.look.at=1,2,3" target="_blank">Try it</a></dt>
+<dd>Points the user camera towards a specific point (In VR this only changes the y axis. In monoscopic mode it changes all 3 axes)<br><br></dd>
+<dt><strong>spectator.mode</strong> (string mode)
+ <a href="/api/v1?spectator.mode=stationary" target="_blank">Try it</a></dt>
+<dd>Sets the spectator camera mode to one of stationary, slowFollow, wobble, circular<br><br></dd>
+<dt><strong>spectator.hide</strong> (string thing)
+ <a href="/api/v1?spectator.hide=panels" target="_blank">Try it</a></dt>
+<dd>Hides the chosen type of elements from the spectator camera (widgets, strokes, selection, headset, panels, ui<br><br></dd>
+<dt><strong>brush.move.to</strong> (Vector3 position)
+ <a href="/api/v1?brush.move.to=widgets" target="_blank">Try it</a></dt>
+<dd>Moves the brush to the given coordinates<br><br></dd>
+<dt><strong>brush.move.to.hand</strong> (string hand, Boolean alsoRotate)
+ <a href="/api/v1?brush.move.to.hand=r" target="_blank">Try it</a></dt>
+<dd>Moves the brush to the given hand (l or r<br><br></dd>
+<dt><strong>brush.move.by</strong> (Vector3 offset)
+ <a href="/api/v1?brush.move.by=1,1,1" target="_blank">Try it</a></dt>
+<dd>Moves the brush by the given amount<br><br></dd>
+<dt><strong>brush.move</strong> (float distance)
+ <a href="/api/v1?brush.move=1" target="_blank">Try it</a></dt>
+<dd>Moves the brush forward by 'distance' without drawing a line<br><br></dd>
+<dt><strong>brush.draw</strong> (float distance)
+ <a href="/api/v1?brush.draw=2" target="_blank">Try it</a></dt>
+<dd>Moves the brush forward by 'distance' and draws a line<br><br></dd>
+<dt><strong>brush.turn.y</strong> (float angle)
+ <a href="/api/v1?brush.turn.y=45" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to the left or right. Angle is measured in degrees<br><br></dd>
+<dt><strong>brush.turn.x</strong> (float angle)
+ <a href="/api/v1?brush.turn.x=45" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction up or down. Angle is measured in degrees<br><br></dd>
+<dt><strong>brush.turn.z</strong> (float angle)
+ <a href="/api/v1?brush.turn.z=45" target="_blank">Try it</a></dt>
+<dd>Rotates the brush clockwise or anticlockwise. Angle is measured in degrees<br><br></dd>
+<dt><strong>brush.look.at</strong> (Vector3 direction)
+ <a href="/api/v1?brush.look.at=1,2,3" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look at the specified point<br><br></dd>
+<dt><strong>brush.look.forwards</strong> 
+ <a href="/api/v1?brush.look.forwards" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look forwards<br><br></dd>
+<dt><strong>brush.look.up</strong> 
+ <a href="/api/v1?brush.look.up" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look upwards<br><br></dd>
+<dt><strong>brush.look.down</strong> 
+ <a href="/api/v1?brush.look.down" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look downwards<br><br></dd>
+<dt><strong>brush.look.left</strong> 
+ <a href="/api/v1?brush.look.left" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look to the left<br><br></dd>
+<dt><strong>brush.look.right</strong> 
+ <a href="/api/v1?brush.look.right" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look to the right<br><br></dd>
+<dt><strong>brush.look.backwards</strong> 
+ <a href="/api/v1?brush.look.backwards" target="_blank">Try it</a></dt>
+<dd>Changes the brush direction to look backwards<br><br></dd>
+<dt><strong>brush.home.reset</strong> 
+ <a href="/api/v1?brush.home.reset" target="_blank">Try it</a></dt>
+<dd>Resets the brush position and direction<br><br></dd>
+<dt><strong>brush.home.set</strong> 
+ <a href="/api/v1?brush.home.set" target="_blank">Try it</a></dt>
+<dd>Sets the current brush position and direction as the new home. This persists in new sketches<br><br></dd>
+<dt><strong>brush.transform.push</strong> 
+ <a href="/api/v1?brush.transform.push" target="_blank">Try it</a></dt>
+<dd>Stores the current brush position and direction on to a stack<br><br></dd>
+<dt><strong>brush.transform.pop</strong> 
+ <a href="/api/v1?brush.transform.pop" target="_blank">Try it</a></dt>
+<dd>Pops the most recent current brush position and direction from the stack<br><br></dd>
+<dt><strong>debug.brush</strong> 
+ <a href="/api/v1?debug.brush" target="_blank">Try it</a></dt>
+<dd>Logs some info about the brush<br><br></dd>
+<dt><strong>text.add</strong> (string text)
+ <a href="/api/v1?text.add=Hello world!" target="_blank">Try it</a></dt>
+<dd>Adds a text widget to the sketch<br><br></dd>
+<dt><strong>video.import</strong> (string location)
+ <a href="/api/v1?video.import=animated-logo.mp4" target="_blank">Try it</a></dt>
+<dd>Imports a video given a url or a filename in Media Library\Videos<br><br></dd>
+<dt><strong>skybox.import</strong> (string location)
+ <a href="/api/v1?skybox.import=panorama.jpg" target="_blank">Try it</a></dt>
+<dd>Sets the skybox from either a url or a filename in Media Library\BackgroundImages (Images loaded from a url are saved locally first)<br><br></dd>
+<dt><strong>image.import</strong> (string location)
+ <a href="/api/v1?image.import=OpenBrushLogo.png" target="_blank">Try it</a></dt>
+<dd>Imports an image given a url or a filename in Media Library\Images (Images loaded from a url are saved locally first)<br><br></dd>
+<dt><strong>environment.type</strong> (string name)
+ <a href="/api/v1?environment.type=pistachio" target="_blank">Try it</a></dt>
+<dd>Sets the current environment<br><br></dd>
+<dt><strong>panel.open</strong> (string name, float x, float y, float z)
+ <a href="/api/v1?panel.open=scripts,4,12,4" target="_blank">Try it</a></dt>
+<dd>Opens a given panel at the given position<br><br></dd>
+<dt><strong>panel.close</strong> (string name)
+ <a href="/api/v1?panel.close=scripts" target="_blank">Try it</a></dt>
+<dd>Closes a given panel<br><br></dd>
+<dt><strong>panel.position</strong> (string name, Vector3 position)
+ <a href="/api/v1?panel.position=4,12,4" target="_blank">Try it</a></dt>
+<dd>Sets position of a given panel<br><br></dd>
+<dt><strong>panel.rotation</strong> (string name, Vector3 rotation)
+ <a href="/api/v1?panel.rotation=4,12,4" target="_blank">Try it</a></dt>
+<dd>Sets rotation of a given panel<br><br></dd>
+<dt><strong>strokes.debug</strong> 
+ <a href="/api/v1?strokes.debug" target="_blank">Try it</a></dt>
+<dd>Logs some debug info about the strokes<br><br></dd>
+<dt><strong>panel.attach</strong> (string name)
+ <a href="/api/v1?panel.attach=scripts" target="_blank">Try it</a></dt>
+<dd>Attaches the given panel to the user's wand<br><br></dd>
+<dt><strong>panel.detach</strong> (string name, Vector3 position)
+ <a href="/api/v1?panel.detach=scripts" target="_blank">Try it</a></dt>
+<dd>Detaches the given panel from the user's wand<br><br></dd>
+<dt><strong>layer.add</strong> 
+ <a href="/api/v1?layer.add" target="_blank">Try it</a></dt>
+<dd>Adds a new layer<br><br></dd>
+<dt><strong>layer.clear</strong> (int layer)
+ <a href="/api/v1?layer.clear=2" target="_blank">Try it</a></dt>
+<dd>Clears the contents of a layer<br><br></dd>
+<dt><strong>debug.ram</strong> (Boolean active)
+ <a href="/api/v1?debug.ram" target="_blank">Try it</a></dt>
+<dd>Enable/Disable logging of RAM usage to the in-app console (Android only)<br><br></dd>
+<dt><strong>layer.delete</strong> (int layer)
+ <a href="/api/v1?layer.delete=1" target="_blank">Try it</a></dt>
+<dd>Deletes a layer<br><br></dd>
+<dt><strong>layer.squash</strong> (int squashedLayer, int destinationLayer)
+ <a href="/api/v1?layer.squash=1,0" target="_blank">Try it</a></dt>
+<dd>Move everything from one layer to another then removes the empty layer<br><br></dd>
+<dt><strong>layer.activate</strong> (int layer)
+ <a href="/api/v1?layer.activate=2" target="_blank">Try it</a></dt>
+<dd>Make a layer the active layer<br><br></dd>
+<dt><strong>layer.show</strong> (int layer)
+ <a href="/api/v1?layer.show=2" target="_blank">Try it</a></dt>
+<dd>Make a layer visible<br><br></dd>
+<dt><strong>layer.hide</strong> (int layer)
+ <a href="/api/v1?layer.hide=2" target="_blank">Try it</a></dt>
+<dd>Hide a layer<br><br></dd>
+<dt><strong>layer.toggle</strong> (int layer)
+ <a href="/api/v1?layer.toggle=2" target="_blank">Try it</a></dt>
+<dd>Toggles a layer between visible and hidden<br><br></dd>
+<dt><strong>model.select</strong> (int index)
+ <a href="/api/v1?model.select=2" target="_blank">Try it</a></dt>
+<dd>Selects a 3d model by index.<br><br></dd>
+<dt><strong>model.position</strong> (int index, Vector3 position)
+ <a href="/api/v1?model.position=2,6,8" target="_blank">Try it</a></dt>
+<dd>Move a 3d model to the given coordinates<br><br></dd>
+<dt><strong>model.rotation</strong> (int index, Vector3 rotation)
+ <a href="/api/v1?model.rotation" target="_blank">Try it</a></dt>
+<dd>Set a model's rotation to the given angles<br><br></dd>
+<dt><strong>model.scale</strong> (int index, float scale)
+ <a href="/api/v1?model.scale" target="_blank">Try it</a></dt>
+<dd>Set a model's scale to the amount<br><br></dd>
+<dt><strong>symmetry.position</strong> (Vector3 position)
+ <a href="/api/v1?symmetry.position=2,6,8" target="_blank">Try it</a></dt>
+<dd>Move the symmetry widget to the given coordinates<br><br></dd>
+<dt><strong>symmetry.set.rotation</strong> (Vector3 rotation)
+ <a href="/api/v1?symmetry.set.rotation=45,30,0" target="_blank">Try it</a></dt>
+<dd>Sets the symmetry widget rotation<br><br></dd>
+<dt><strong>symmetry.set.transform</strong> (Vector3 position, Vector3 rotation)
+ <a href="/api/v1?symmetry.set.transform=2,6,8,45,30,0" target="_blank">Try it</a></dt>
+<dd>Sets the position and rotation of the symmetry widget<br><br></dd>
+<dt><strong>brush.force.painting.on</strong> (Boolean active)
+ <a href="/api/v1?brush.force.painting.on=true" target="_blank">Try it</a></dt>
+<dd>Turns on or off an override that paints even if the trigger is not pressed.<br><br></dd>
+<dt><strong>brush.force.painting.off</strong> (Boolean active)
+ <a href="/api/v1?brush.force.painting.off=false" target="_blank">Try it</a></dt>
+<dd>Turns on or off an override that stops the user painting even if the trigger is pressed.<br><br></dd>
+<dt><strong>brush.new.stroke</strong> 
+ <a href="/api/v1?brush.new.stroke" target="_blank">Try it</a></dt>
+<dd>Ends the current stroke and starts a new one next frame<br><br></dd>
+<dt><strong>image.select</strong> (int index)
+ <a href="/api/v1?image.select=2" target="_blank">Try it</a></dt>
+<dd>Selects an image by index.<br><br></dd>
+<dt><strong>image.delete</strong> (int index)
+ <a href="/api/v1?image.delete=2" target="_blank">Try it</a></dt>
+<dd>Deletes an image by index.<br><br></dd>
+<dt><strong>video.delete</strong> (int index)
+ <a href="/api/v1?video.delete=2" target="_blank">Try it</a></dt>
+<dd>Deletes a video by index.<br><br></dd>
+<dt><strong>model.delete</strong> (int index)
+ <a href="/api/v1?model.delete=2,6,8" target="_blank">Try it</a></dt>
+<dd>Deletes a 3d model by index.<br><br></dd>
+<dt><strong>guide.delete</strong> (int index)
+ <a href="/api/v1?guide.delete=2" target="_blank">Try it</a></dt>
+<dd>Deletes a guide by index.<br><br></dd>
+<dt><strong>image.position</strong> (int index, Vector3 position)
+ <a href="/api/v1?image.position=2,1,6,8" target="_blank">Try it</a></dt>
+<dd>Move an image to the given coordinates<br><br></dd>
+<dt><strong>image.rotation</strong> (int index, Vector3 rotation)
+ <a href="/api/v1?image.rotation" target="_blank">Try it</a></dt>
+<dd>Set a images rotation to the given angles<br><br></dd>
+<dt><strong>image.scale</strong> (int index, float scale)
+ <a href="/api/v1?image.scale" target="_blank">Try it</a></dt>
+<dd>Set a images scale to the amount<br><br></dd>
+<dt><strong>light.position</strong> (int index, Vector3 position)
+ <a href="/api/v1?light.position" target="_blank">Try it</a></dt>
+<dd>Move a light to the given coordinates<br><br></dd>
+<dt><strong>light.rotation</strong> (int index, Vector3 rotation)
+ <a href="/api/v1?light.rotation" target="_blank">Try it</a></dt>
+<dd>Set a light's rotation to the given angles<br><br></dd>
+<dt><strong>image.formEncode</strong> (int index)
+ <a href="/api/v1?image.formEncode=2" target="_blank">Try it</a></dt>
+<dd>Converts an image to a string suitable for use in a form<br><br></dd>
+<dt><strong>image.base64Decode</strong> (string base64, string filename)
+ <a href="/api/v1?image.base64Decode" target="_blank">Try it</a></dt>
+<dd>Saves an image based on a base64 encoded string<br><br></dd>
+<dt><strong>scripts.initPluginScripting</strong> 
+ <a href="/api/v1?scripts.initPluginScripting=" target="_blank">Try it</a></dt>
+<dd>Call this before using any HTTP endpoint that accesses plugins (including html pages that list plugins)<br><br></dd>
+<dt><strong>scripts.toolscript.activate</strong> (string scriptName)
+ <a href="/api/v1?scripts.toolscript.activate=Spiral" target="_blank">Try it</a></dt>
+<dd>Activate the given tool script<br><br></dd>
+<dt><strong>scripts.toolscript.deactivate</strong> 
+ <a href="/api/v1?scripts.toolscript.deactivate=Spiral" target="_blank">Try it</a></dt>
+<dd>Dectivate the tool script<br><br></dd>
+<dt><strong>scripts.symmetryscript.activate</strong> (string scriptName)
+ <a href="/api/v1?scripts.symmetryscript.activate=Boids" target="_blank">Try it</a></dt>
+<dd>Activate the given symmetry script<br><br></dd>
+<dt><strong>scripts.symmetryscript.deactivate</strong> 
+ <a href="/api/v1?scripts.symmetryscript.deactivate=Boids" target="_blank">Try it</a></dt>
+<dd>Dectivate the symmetry script<br><br></dd>
+<dt><strong>scripts.pointerscript.activate</strong> (string scriptName)
+ <a href="/api/v1?scripts.pointerscript.activate=Loops" target="_blank">Try it</a></dt>
+<dd>Activate the given pointer script<br><br></dd>
+<dt><strong>scripts.pointerscript.deactivate</strong> 
+ <a href="/api/v1?scripts.pointerscript.deactivate=Loops" target="_blank">Try it</a></dt>
+<dd>Dectivate the pointer script<br><br></dd>
+<dt><strong>scripts.backgroundscript.activate</strong> (string scriptName)
+ <a href="/api/v1?scripts.backgroundscript.activate=Lines" target="_blank">Try it</a></dt>
+<dd>Activate the given background script<br><br></dd>
+<dt><strong>scripts.backgroundscript.deactivate</strong> (string scriptName)
+ <a href="/api/v1?scripts.backgroundscript.deactivate=Lines" target="_blank">Try it</a></dt>
+<dd>Dectivate the given background script<br><br></dd>
+<dt><strong>scripts.backgroundscript.activateall</strong> 
+ <a href="/api/v1?scripts.backgroundscript.activateall" target="_blank">Try it</a></dt>
+<dd>Dectivate all background scripts<br><br></dd>
+<dt><strong>scripts.backgroundscript.deactivateall</strong> 
+ <a href="/api/v1?scripts.backgroundscript.deactivateall" target="_blank">Try it</a></dt>
+<dd>Dectivate all background scripts<br><br></dd>
+<dt><strong>guide.add</strong> (string type)
+ <a href="/api/v1?guide.add=cube" target="_blank">Try it</a></dt>
+<dd>Adds a guide to the scene (cube, sphere, capsule, cone, ellipsoid)<br><br></dd>
+<dt><strong>guide.select</strong> (int index)
+ <a href="/api/v1?guide.select=2" target="_blank">Try it</a></dt>
+<dd>Selects a guide by index.<br><br></dd>
+<dt><strong>guide.position</strong> (int index, Vector3 position)
+ <a href="/api/v1?guide.position=2,4,10,-4" target="_blank">Try it</a></dt>
+<dd>Move a guide to the given coordinates<br><br></dd>
+<dt><strong>guide.scale</strong> (int index, Vector3 scale)
+ <a href="/api/v1?guide.scale=2,1.5,1,1.5" target="_blank">Try it</a></dt>
+<dd>Sets the (non-uniform) scale of a guide<br><br></dd>
+</dl>
+</body></html>

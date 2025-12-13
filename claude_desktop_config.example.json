@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "openbrush": {
+      "command": "python",
+      "args": [
+        "/CHEMIN_ABSOLU/openbrush_mcp_server.py"
+      ],
+      "env": {}
+    }
+  }
+}
