@@ -24,8 +24,10 @@ async def call_openbrush_api(params: Dict[str, Any]) -> Tuple[int, str]:
     Returns: (status_code, url_called)
     """
     try:
+        # Filter out None values to avoid sending =None
+        filtered_params = {k: v for k, v in params.items() if v is not None}
         async with httpx.AsyncClient(timeout=30.0) as client:
-            response = await client.get(API_BASE_URL, params=params)
+            response = await client.get(API_BASE_URL, params=filtered_params)
             # Build the complete URL for debugging
             url = str(response.url)
             return (response.status_code, url)
@@ -194,19 +196,7 @@ async def list_tools() -> List[Tool]:
                 "required": ["x", "y", "z"]
             }
         ),
-        Tool(
-            name="brush_rotate",
-            description="Sets brush rotation",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "x": {"type": "number", "description": "X rotation (pitch)"},
-                    "y": {"type": "number", "description": "Y rotation (yaw)"},
-                    "z": {"type": "number", "description": "Z rotation (roll)"}
-                },
-                "required": ["x", "y", "z"]
-            }
-        ),
+
         Tool(
             name="brush_turn",
             description="Turns brush relatively",
@@ -697,9 +687,9 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
         "brush_set_size": lambda args: {"brush.size.set": str(args["size"])},
         "brush_add_size": lambda args: {"brush.size.add": str(args["amount"])},
         "brush_set_path_smoothing": lambda args: {"brush.pathsmoothing": str(args["amount"])},
-        "brush_move": lambda args: {"brush.move": f"{args['x']},{args['y']},{args['z']}"},
-        "brush_translate": lambda args: {"brush.translate": f"{args['x']},{args['y']},{args['z']}"},
-        "brush_rotate": lambda args: {"brush.rotate": f"{args['x']},{args['y']},{args['z']}"},
+        "brush_move": lambda args: {"brush.move.to": f"{args['x']},{args['y']},{args['z']}"},
+        "brush_translate": lambda args: {"brush.move.by": f"{args['x']},{args['y']},{args['z']}"},
+
         "brush_turn": lambda args: {
             "brush.turn.x": str(args.get("x", 0)),
             "brush.turn.y": str(args.get("y", 0)),
@@ -725,33 +715,33 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
         "model_delete": lambda args: {"model.delete": str(args["index"])},
         
         # Save/Load
-        "save_overwrite": lambda args: {"save.overwrite": ""},
+        "save_overwrite": lambda args: {"save.overwrite": None},
         "save_as": lambda args: {"save.as": args["filename"]},
-        "save_new": lambda args: {"save.new": ""},
+        "save_new": lambda args: {"save.new": None},
         "load_user": lambda args: {"load.user": str(args["slot"])},
         "load_named": lambda args: {"load.named": args["filename"]},
-        "new_scene": lambda args: {"scene.new": ""},
+        "new_scene": lambda args: {"new": None},
         
         # Camera
-        "camera_move": lambda args: {"camera.move": f"{args['x']},{args['y']},{args['z']}"},
-        "camera_translate": lambda args: {"camera.translate": f"{args['x']},{args['y']},{args['z']}"},
-        "camera_rotate": lambda args: {"camera.rotate": f"{args['x']},{args['y']},{args['z']}"},
+        "camera_move": lambda args: {"user.move.to": f"{args['x']},{args['y']},{args['z']}"},
+        "camera_translate": lambda args: {"user.move.by": f"{args['x']},{args['y']},{args['z']}"},
+        "camera_rotate": lambda args: {"user.direction": f"{args['x']},{args['y']},{args['z']}"},
         "camera_turn": lambda args: {
-            "camera.turn.x": str(args.get("x", 0)),
-            "camera.turn.y": str(args.get("y", 0)),
-            "camera.turn.z": str(args.get("z", 0))
+            "user.turn.x": str(args.get("x", 0)),
+            "user.turn.y": str(args.get("y", 0)),
+            "user.turn.z": str(args.get("z", 0))
         },
-        "spectator_move": lambda args: {"spectator.move": f"{args['x']},{args['y']},{args['z']}"},
+        "spectator_move": lambda args: {"spectator.move.to": f"{args['x']},{args['y']},{args['z']}"},
         
         # Selection
-        "selection_select_all": lambda args: {"selection.all": ""},
-        "selection_invert": lambda args: {"selection.invert": ""},
-        "selection_delete": lambda args: {"selection.delete": ""},
-        "selection_duplicate": lambda args: {"selection.duplicate": ""},
+        "selection_select_all": lambda args: {"select.all": None},
+        "selection_invert": lambda args: {"selection.invert": None},
+        "selection_delete": lambda args: {"selection.delete": None},
+        "selection_duplicate": lambda args: {"selection.duplicate": None},
         
         # Layers
-        "layer_create": lambda args: {"layer.create": args.get("name", "")},
-        "layer_set": lambda args: {"layer.set": str(args["layer"])},
+        "layer_create": lambda args: {"layer.add": None},
+        "layer_set": lambda args: {"layer.activate": str(args["layer"])},
         "layer_show": lambda args: {"layer.show": str(args["layer"])},
         "layer_hide": lambda args: {"layer.hide": str(args["layer"])},
         
@@ -765,9 +755,9 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
         "symmetry_position": lambda args: {"symmetry.position": f"{args['x']},{args['y']},{args['z']}"},
         
         # Utility
-        "undo": lambda args: {"undo": ""},
-        "redo": lambda args: {"redo": ""},
-        "show_help": lambda args: {"help": ""},
+        "undo": lambda args: {"undo": None},
+        "redo": lambda args: {"redo": None},
+        "show_help": lambda args: {"help": None},
     }
     
     if name not in command_map:
