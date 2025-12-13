@@ -1,42 +1,42 @@
-# Serveur MCP pour Open Brush
+# MCP Server for Open Brush
 
-Ce serveur MCP (Model Context Protocol) expose l'API d'Open Brush comme des outils utilisables par des LLMs via le protocole MCP.
+This MCP (Model Context Protocol) server exposes the Open Brush API as tools usable by LLMs via the MCP protocol.
 
-## 📋 Prérequis
+## 📋 Prerequisites
 
-- Python 3.10 ou supérieur
-- Open Brush en cours d'exécution avec l'API activée (port 40074)
-- Accès à un client MCP (comme Claude Desktop)
+- Python 3.10 or higher
+- Open Brush running with API enabled (port 40074)
+- Access to an MCP client (like Claude Desktop)
 
 ## 🚀 Installation
 
-1. **Cloner ou télécharger les fichiers**
+1. **Clone or download the files**
 
-2. **Installer les dépendances Python**
+2. **Install Python dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. **Rendre le script exécutable (optionnel sur Linux/Mac)**
+3. **Make the script executable (optional on Linux/Mac)**
 ```bash
 chmod +x openbrush_mcp_server.py
 ```
 
 ## ⚙️ Configuration
 
-### Activer l'API dans Open Brush
+### Enable API in Open Brush
 
-1. Lancez Open Brush
-2. Activez l'API HTTP dans les paramètres
-3. L'API devrait être accessible sur `http://localhost:40074/api/v1`
+1. Launch Open Brush
+2. Enable HTTP API in settings
+3. API should be accessible at `http://localhost:40074/api/v1`
 
-### Configurer dans Claude Desktop
+### Configure in Claude Desktop
 
-Ajoutez cette configuration à votre fichier de configuration MCP de Claude Desktop :
+Add this configuration to your Claude Desktop MCP configuration file:
 
-**Sur macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**On macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
 
-**Sur Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+**On Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 
 ```json
 {
@@ -44,160 +44,160 @@ Ajoutez cette configuration à votre fichier de configuration MCP de Claude Desk
     "openbrush": {
       "command": "python",
       "args": [
-        "/chemin/vers/openbrush_mcp_server.py"
+        "/path/to/openbrush_mcp_server.py"
       ]
     }
   }
 }
 ```
 
-Remplacez `/chemin/vers/` par le chemin absolu vers le fichier.
+Replace `/path/to/` with the absolute path to the file.
 
-## 📚 Outils Disponibles
+## 📚 Available Tools
 
-Le serveur expose de nombreux outils organisés par catégorie :
+The server exposes many tools organized by category:
 
-### 🎨 Dessin (Drawing)
-- `draw_paths` - Dessiner plusieurs chemins
-- `draw_path` - Dessiner un chemin simple
-- `draw_stroke` - Dessiner un trait avec orientation et pression
-- `draw_polygon` - Dessiner un polygone
-- `draw_text` - Dessiner du texte
-- `draw_svg_path` - Dessiner un chemin SVG
+### 🎨 Drawing
+- `draw_paths` - Draw multiple paths
+- `draw_path` - Draw a simple path
+- `draw_stroke` - Draw a stroke with orientation and pressure
+- `draw_polygon` - Draw a polygon
+- `draw_text` - Draw text
+- `draw_svg_path` - Draw an SVG path
 
-### 🖌️ Pinceau (Brush)
-- `brush_set_type` - Changer le type de pinceau
-- `brush_set_size` - Définir la taille du pinceau
-- `brush_add_size` - Modifier la taille du pinceau
-- `brush_set_path_smoothing` - Définir le lissage
-- `brush_move` - Déplacer le pinceau (position absolue)
-- `brush_translate` - Déplacer le pinceau (relatif)
-- `brush_rotate` - Rotation du pinceau (absolue)
-- `brush_turn` - Rotation du pinceau (relative)
-- `brush_draw` - Dessiner une ligne droite
+### 🖌️ Brush
+- `brush_set_type` - Change brush type
+- `brush_set_size` - Set brush size
+- `brush_add_size` - Modify brush size
+- `brush_set_path_smoothing` - Set smoothing
+- `brush_move` - Move brush (absolute position)
+- `brush_translate` - Move brush (relative)
+- `brush_rotate` - Rotate brush (absolute)
+- `brush_turn` - Rotate brush (relative)
+- `brush_draw` - Draw a straight line
 
-### 🎨 Couleur (Color)
-- `color_set_rgb` - Définir la couleur en RGB
-- `color_set_hsv` - Définir la couleur en HSV
-- `color_set_html` - Définir la couleur avec HTML/CSS
-- `color_add_rgb` - Modifier la couleur (RGB)
-- `color_add_hsv` - Modifier la couleur (HSV)
+### 🎨 Color
+- `color_set_rgb` - Set color in RGB
+- `color_set_hsv` - Set color in HSV
+- `color_set_html` - Set color with HTML/CSS
+- `color_add_rgb` - Modify color (RGB)
+- `color_add_hsv` - Modify color (HSV)
 
-### 🧊 Modèles 3D (Models)
-- `model_import` - Importer un modèle local
-- `model_web_import` - Importer depuis une URL
-- `model_icosa_import` - Importer depuis Icosa Gallery
-- `model_select` - Sélectionner un modèle
-- `model_position` - Positionner un modèle
-- `model_rotation` - Rotation d'un modèle
-- `model_scale` - Échelle d'un modèle
-- `model_delete` - Supprimer un modèle
+### 🧊 3D Models
+- `model_import` - Import local model
+- `model_web_import` - Import from URL
+- `model_icosa_import` - Import from Icosa Gallery
+- `model_select` - Select model
+- `model_position` - Position model
+- `model_rotation` - Rotate model
+- `model_scale` - Scale model
+- `model_delete` - Delete model
 
-### 💾 Sauvegarde/Chargement (Save/Load)
-- `save_overwrite` - Sauvegarder (écraser)
-- `save_as` - Sauvegarder sous...
-- `save_new` - Nouvelle sauvegarde
-- `load_user` - Charger un sketch utilisateur
-- `load_named` - Charger par nom
-- `new_scene` - Nouvelle scène
+### 💾 Save/Load
+- `save_overwrite` - Save (overwrite)
+- `save_as` - Save as...
+- `save_new` - New save
+- `load_user` - Load user sketch
+- `load_named` - Load by name
+- `new_scene` - New scene
 
-### 📷 Caméra (Camera)
-- `camera_move` - Déplacer la caméra (absolu)
-- `camera_translate` - Déplacer la caméra (relatif)
-- `camera_rotate` - Rotation caméra (absolue)
-- `camera_turn` - Rotation caméra (relative)
-- `spectator_move` - Déplacer la vue spectateur
+### 📷 Camera
+- `camera_move` - Move camera (absolute)
+- `camera_translate` - Move camera (relative)
+- `camera_rotate` - Rotate camera (absolute)
+- `camera_turn` - Rotate camera (relative)
+- `spectator_move` - Move spectator view
 
-### ✂️ Sélection (Selection)
-- `selection_select_all` - Tout sélectionner
-- `selection_invert` - Inverser la sélection
-- `selection_delete` - Supprimer la sélection
-- `selection_duplicate` - Dupliquer la sélection
+### ✂️ Selection
+- `selection_select_all` - Select all
+- `selection_invert` - Invert selection
+- `selection_delete` - Delete selection
+- `selection_duplicate` - Duplicate selection
 
-### 📑 Calques (Layers)
-- `layer_create` - Créer un calque
-- `layer_set` - Définir le calque actif
-- `layer_show` - Afficher un calque
-- `layer_hide` - Cacher un calque
+### 📑 Layers
+- `layer_create` - Create layer
+- `layer_set` - Set active layer
+- `layer_show` - Show layer
+- `layer_hide` - Hide layer
 
 ### 📐 Guides
-- `guide_add` - Ajouter un guide (cube, sphere, etc.)
-- `guide_position` - Positionner un guide
-- `guide_scale` - Échelle d'un guide
+- `guide_add` - Add guide (cube, sphere, etc.)
+- `guide_position` - Position guide
+- `guide_scale` - Scale guide
 
-### 🔄 Symétrie (Symmetry)
-- `symmetry_mode` - Mode de symétrie
-- `symmetry_position` - Position du widget de symétrie
+### 🔄 Symmetry
+- `symmetry_mode` - Symmetry mode
+- `symmetry_position` - Symmetry widget position
 
-### 🔧 Utilitaires
-- `undo` - Annuler
-- `redo` - Refaire
-- `show_help` - Afficher l'aide API
+### 🔧 Utilities
+- `undo` - Undo
+- `redo` - Redo
+- `show_help` - Show API help
 
-## 💡 Exemples d'utilisation
+## 💡 Usage Examples
 
-Une fois le serveur configuré dans Claude Desktop, vous pouvez donner des instructions en langage naturel :
+Once the server is configured in Claude Desktop, you can give natural language instructions:
 
 ```
-"Dessine un carré rouge de taille 2 à la position 0,0,0"
-"Change le pinceau en 'ink' et définis la couleur en bleu"
-"Crée un polygone à 6 côtés avec un rayon de 3"
-"Importe le modèle 'Andy.glb' et positionne-le en 1,2,3"
-"Sauvegarde la scène sous le nom 'ma_creation'"
+"Draw a red square of size 2 at position 0,0,0"
+"Change brush to 'ink' and set color to blue"
+"Create a 6-sided polygon with radius 3"
+"Import the model 'Andy.glb' and position it at 1,2,3"
+"Save the scene as 'my_creation'"
 ```
 
-## 🔍 Test du serveur
+## 🔍 Testing the Server
 
-Pour tester manuellement le serveur :
+To manually test the server:
 
 ```bash
 python openbrush_mcp_server.py
 ```
 
-Le serveur devrait démarrer et attendre des commandes sur stdin/stdout selon le protocole MCP.
+The server should start and wait for commands on stdin/stdout according to the MCP protocol.
 
-## 🛠️ Dépannage
+## 🛠️ Troubleshooting
 
-### L'API Open Brush n'est pas accessible
-- Vérifiez qu'Open Brush est lancé
-- Vérifiez que l'API HTTP est activée dans les paramètres
-- Testez manuellement : `http://localhost:40074/api/v1?help`
+### Open Brush API not accessible
+- Check that Open Brush is running
+- Check that HTTP API is enabled in settings
+- Test manually: `http://localhost:40074/api/v1?help`
 
-### Le serveur MCP ne se connecte pas
-- Vérifiez le chemin dans la configuration Claude Desktop
-- Vérifiez que Python est dans le PATH
-- Consultez les logs de Claude Desktop
+### MCP server not connecting
+- Check the path in Claude Desktop configuration
+- Check that Python is in PATH
+- Check Claude Desktop logs
 
-### Les commandes échouent
-- Vérifiez les paramètres fournis
-- Consultez la documentation de l'API Open Brush
-- Vérifiez les messages d'erreur retournés
+### Commands failing
+- Check provided parameters
+- Check Open Brush API documentation
+- Check returned error messages
 
-## 📖 Ressources
+## 📖 Resources
 
-- [Documentation Open Brush](https://docs.openbrush.app/)
+- [Open Brush Documentation](https://docs.openbrush.app/)
 - [Model Context Protocol (MCP)](https://modelcontextprotocol.io/)
-- [API Open Brush complète](http://localhost:40074/help) (quand Open Brush est lancé)
+- [Complete Open Brush API](http://localhost:40074/help) (when Open Brush is running)
 
-## 🔒 Sécurité
+## 🔒 Security
 
-⚠️ **Attention** : Ce serveur appelle une API locale. Assurez-vous de :
-- Ne pas exposer le port 40074 sur internet
-- Faire confiance aux commandes envoyées
-- Sauvegarder vos créations régulièrement
+⚠️ **Warning**: This server calls a local API. Make sure to:
+- Not expose port 40074 on the internet
+- Trust sent commands
+- Backup your creations regularly
 
-## 📝 Licence
+## 📝 License
 
-Ce serveur MCP est fourni tel quel pour faciliter l'utilisation d'Open Brush avec des LLMs.
+This MCP server is provided as-is to facilitate Open Brush usage with LLMs.
 
 ## 🤝 Contribution
 
-N'hésitez pas à :
-- Signaler des bugs
-- Proposer des améliorations
-- Ajouter de nouveaux outils pour les commandes API manquantes
+Feel free to:
+- Report bugs
+- Suggest improvements
+- Add new tools for missing API commands
 
 ---
 
-**Note** : Open Brush est un fork open-source de Tilt Brush de Google. Ce serveur MCP n'est pas affilié officiellement à Open Brush.
+**Note**: Open Brush is an open-source fork of Google's Tilt Brush. This MCP server is not officially affiliated with Open Brush.
 

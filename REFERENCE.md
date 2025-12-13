@@ -1,9 +1,9 @@
-# Guide de Référence Rapide - Commandes Open Brush MCP
+# Quick Reference Guide - Open Brush MCP Commands
 
-## 🎨 DESSIN (Drawing)
+## 🎨 DRAWING
 
 ### draw_paths
-Dessine plusieurs chemins
+Draw multiple paths
 ```json
 {
   "paths": "[[[0,0,0],[1,0,0]],[[0,0,1],[1,0,1]]]"
@@ -11,7 +11,7 @@ Dessine plusieurs chemins
 ```
 
 ### draw_path
-Dessine un chemin simple
+Draw a simple path
 ```json
 {
   "path": "[0,0,0],[1,0,0],[1,1,0]"
@@ -19,7 +19,7 @@ Dessine un chemin simple
 ```
 
 ### draw_polygon
-Dessine un polygone
+Draw a polygon
 ```json
 {
   "sides": 6,
@@ -29,26 +29,26 @@ Dessine un polygone
 ```
 
 ### draw_text
-Dessine du texte
+Draw text
 ```json
 {
   "text": "Hello World"
 }
 ```
 
-## 🖌️ PINCEAU (Brush)
+## 🖌️ BRUSH
 
 ### brush_set_type
-Change le type de pinceau
+Change brush type
 ```json
 {
   "brush_type": "ink"
 }
 ```
-Types courants: ink, marker, light, fire, snow, stars, etc.
+Common types: ink, marker, light, fire, snow, stars, etc.
 
 ### brush_set_size
-Définit la taille
+Set size
 ```json
 {
   "size": 0.5
@@ -56,7 +56,7 @@ Définit la taille
 ```
 
 ### brush_move
-Déplace le pinceau (absolu)
+Move brush (absolute)
 ```json
 {
   "x": 0,
@@ -66,7 +66,7 @@ Déplace le pinceau (absolu)
 ```
 
 ### brush_translate
-Déplace le pinceau (relatif)
+Move brush (relative)
 ```json
 {
   "x": 0.5,
@@ -76,7 +76,7 @@ Déplace le pinceau (relatif)
 ```
 
 ### brush_rotate
-Rotation absolue
+Absolute rotation
 ```json
 {
   "x": 0,
@@ -86,7 +86,7 @@ Rotation absolue
 ```
 
 ### brush_turn
-Rotation relative
+Relative rotation
 ```json
 {
   "x": 0,
@@ -96,17 +96,17 @@ Rotation relative
 ```
 
 ### brush_draw
-Dessine une ligne droite
+Draw a straight line
 ```json
 {
   "length": 2.0
 }
 ```
 
-## 🎨 COULEUR (Color)
+## 🎨 COLOR
 
 ### color_set_rgb
-Couleur en RGB (0-1)
+Color in RGB (0-1)
 ```json
 {
   "r": 1.0,
@@ -116,7 +116,7 @@ Couleur en RGB (0-1)
 ```
 
 ### color_set_hsv
-Couleur en HSV (0-1)
+Color in HSV (0-1)
 ```json
 {
   "h": 0.5,
@@ -126,23 +126,23 @@ Couleur en HSV (0-1)
 ```
 
 ### color_set_html
-Couleur HTML/CSS
+HTML/CSS color
 ```json
 {
   "color": "darkblue"
 }
 ```
-ou
+or
 ```json
 {
   "color": "#FF5500"
 }
 ```
 
-## 🧊 MODÈLES 3D (Models)
+## 🧊 3D MODELS
 
 ### model_import
-Importe un modèle local
+Import local model
 ```json
 {
   "filename": "Andy.glb"
@@ -150,15 +150,15 @@ Importe un modèle local
 ```
 
 ### model_web_import
-Importe depuis URL
+Import from URL
 ```json
 {
-  "url": "https://exemple.com/model.obj"
+  "url": "https://example.com/model.obj"
 }
 ```
 
 ### model_icosa_import
-Importe depuis Icosa Gallery
+Import from Icosa Gallery
 ```json
 {
   "model_id": "9L2Lt-sxzdp"
@@ -166,7 +166,7 @@ Importe depuis Icosa Gallery
 ```
 
 ### model_position
-Positionne un modèle
+Position a model
 ```json
 {
   "index": 0,
@@ -177,7 +177,7 @@ Positionne un modèle
 ```
 
 ### model_scale
-Échelle d'un modèle
+Scale a model
 ```json
 {
   "index": 0,
@@ -185,37 +185,37 @@ Positionne un modèle
 }
 ```
 
-## 💾 SAUVEGARDE/CHARGEMENT
+## 💾 SAVE/LOAD
 
 ### save_as
-Sauvegarde sous un nom
+Save with a name
 ```json
 {
-  "filename": "ma_creation"
+  "filename": "my_creation"
 }
 ```
 
 ### load_named
-Charge par nom
+Load by name
 ```json
 {
-  "filename": "ma_creation"
+  "filename": "my_creation"
 }
 ```
 
 ### load_user
-Charge par index
+Load by index
 ```json
 {
   "slot": 0
 }
 ```
-(0 = plus récent)
+(0 = most recent)
 
-## 📷 CAMÉRA
+## 📷 CAMERA
 
 ### camera_move
-Déplace la caméra (absolu)
+Move camera (absolute)
 ```json
 {
   "x": 0,
@@ -225,7 +225,7 @@ Déplace la caméra (absolu)
 ```
 
 ### camera_rotate
-Rotation caméra
+Rotate camera
 ```json
 {
   "x": 0,
@@ -234,38 +234,38 @@ Rotation caméra
 }
 ```
 
-## ✂️ SÉLECTION
+## ✂️ SELECTION
 
 ### selection_select_all
-Sélectionne tout
+Select all
 ```json
 {}
 ```
 
 ### selection_delete
-Supprime la sélection
+Delete selection
 ```json
 {}
 ```
 
 ### selection_duplicate
-Duplique la sélection
+Duplicate selection
 ```json
 {}
 ```
 
-## 📑 CALQUES
+## 📑 LAYERS
 
 ### layer_create
-Crée un calque
+Create a layer
 ```json
 {
-  "name": "Mon Calque"
+  "name": "My Layer"
 }
 ```
 
 ### layer_set
-Active un calque
+Activate a layer
 ```json
 {
   "layer": 1
@@ -273,7 +273,7 @@ Active un calque
 ```
 
 ### layer_show / layer_hide
-Affiche/Cache un calque
+Show/Hide a layer
 ```json
 {
   "layer": 1
@@ -283,7 +283,7 @@ Affiche/Cache un calque
 ## 📐 GUIDES
 
 ### guide_add
-Ajoute un guide
+Add a guide
 ```json
 {
   "guide_type": "cube"
@@ -292,7 +292,7 @@ Ajoute un guide
 Types: cube, sphere, capsule, cone, ellipsoid
 
 ### guide_position
-Positionne un guide
+Position a guide
 ```json
 {
   "index": 0,
@@ -302,10 +302,10 @@ Positionne un guide
 }
 ```
 
-## 🔄 SYMÉTRIE
+## 🔄 SYMMETRY
 
 ### symmetry_mode
-Mode de symétrie
+Symmetry mode
 ```json
 {
   "mode": "quad"
@@ -314,7 +314,7 @@ Mode de symétrie
 Modes: none, single, double, quad, radial
 
 ### symmetry_position
-Position du widget
+Widget position
 ```json
 {
   "x": 0,
@@ -323,50 +323,50 @@ Position du widget
 }
 ```
 
-## 🔧 UTILITAIRES
+## 🔧 UTILITIES
 
 ### undo
-Annule la dernière action
+Undo last action
 ```json
 {}
 ```
 
 ### redo
-Refait la dernière action
+Redo last action
 ```json
 {}
 ```
 
 ---
 
-## 💡 EXEMPLES DE WORKFLOWS
+## 💡 WORKFLOW EXAMPLES
 
-### Créer un carré coloré
-1. `color_set_html` avec `{"color": "red"}`
-2. `brush_set_type` avec `{"brush_type": "ink"}`
-3. `brush_set_size` avec `{"size": 0.5}`
-4. `draw_polygon` avec `{"sides": 4, "radius": 2, "angle": 45}`
+### Create a colored square
+1. `color_set_html` with `{"color": "red"}`
+2. `brush_set_type` with `{"brush_type": "ink"}`
+3. `brush_set_size` with `{"size": 0.5}`
+4. `draw_polygon` with `{"sides": 4, "radius": 2, "angle": 45}`
 
-### Importer et positionner un modèle
-1. `model_import` avec `{"filename": "Andy.glb"}`
-2. `model_position` avec `{"index": 0, "x": 0, "y": 1, "z": 2}`
-3. `model_scale` avec `{"index": 0, "scale": 1.5}`
+### Import and position a model
+1. `model_import` with `{"filename": "Andy.glb"}`
+2. `model_position` with `{"index": 0, "x": 0, "y": 1, "z": 2}`
+3. `model_scale` with `{"index": 0, "scale": 1.5}`
 
-### Créer une spirale
-1. `brush_move` à position de départ
-2. Boucle:
-   - `brush_translate` un petit pas en avant
-   - `brush_turn` rotation Y de quelques degrés
-   - `brush_draw` avec petite longueur
+### Create a spiral
+1. `brush_move` to starting position
+2. Loop:
+   - `brush_translate` small step forward
+   - `brush_turn` Y rotation by a few degrees
+   - `brush_draw` with small length
 
-### Travailler avec des calques
-1. `layer_create` avec `{"name": "Background"}`
-2. Dessiner le fond
-3. `layer_create` avec `{"name": "Foreground"}`
-4. `layer_set` avec `{"layer": 1}`
-5. Dessiner le premier plan
-6. `layer_hide` avec `{"layer": 0}` pour cacher le fond
+### Working with layers
+1. `layer_create` with `{"name": "Background"}`
+2. Draw background
+3. `layer_create` with `{"name": "Foreground"}`
+4. `layer_set` with `{"layer": 1}`
+5. Draw foreground
+6. `layer_hide` with `{"layer": 0}` to hide background
 
 ---
 
-**Note**: Tous les angles sont en degrés. Les coordonnées suivent le système de coordonnées Unity (Y vers le haut).
+**Note**: All angles are in degrees. Coordinates follow Unity coordinate system (Y up).

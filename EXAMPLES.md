@@ -1,205 +1,205 @@
-# Exemples de Scripts Open Brush
+# Open Brush Script Examples
 
-Ce fichier contient des exemples de scripts que vous pouvez demander à Claude d'exécuter via le serveur MCP.
+This file contains example scripts that you can ask Claude to execute via the MCP server.
 
-## 🌈 Exemple 1 : Arc-en-ciel
+## 🌈 Example 1: Rainbow
 
-"Crée un arc-en-ciel avec 7 arcs de couleurs différentes"
+"Create a rainbow with 7 arcs of different colors"
 
-Étapes :
-1. Définir le pinceau en type "ink" avec taille 0.3
-2. Pour chaque couleur (rouge, orange, jaune, vert, bleu, indigo, violet) :
-   - Changer la couleur
-   - Dessiner un arc (polygone avec nombreux côtés)
-   - Déplacer le pinceau légèrement
+Steps:
+1. Set brush to "ink" type with size 0.3
+2. For each color (red, orange, yellow, green, blue, indigo, violet):
+   - Change color
+   - Draw an arc (polygon with many sides)
+   - Move brush slightly
 
-## 🏗️ Exemple 2 : Grille 3D
+## 🏗️ Example 2: 3D Grid
 
-"Crée une grille 3D de 5x5x5 cubes"
+"Create a 3D grid of 5x5x5 cubes"
 
-Étapes :
-1. Ajouter un guide cube à l'origine
-2. Pour x de 0 à 4 :
-   - Pour y de 0 à 4 :
-     - Pour z de 0 à 4 :
-       - Dupliquer le guide
-       - Positionner à (x*2, y*2, z*2)
+Steps:
+1. Add a cube guide at origin
+2. For x from 0 to 4:
+   - For y from 0 to 4:
+     - For z from 0 to 4:
+       - Duplicate the guide
+       - Position at (x*2, y*2, z*2)
 
-## ✍️ Exemple 3 : Texte avec effet néon
+## ✍️ Example 3: Neon Text Effect
 
-"Écris 'HELLO' avec un effet néon lumineux"
+"Write 'HELLO' with a neon glowing effect"
 
-Étapes :
-1. Changer le pinceau en "light" ou "neon"
-2. Définir la couleur en cyan vif
-3. Définir une taille de 1.0
-4. Dessiner le texte "HELLO"
+Steps:
+1. Change brush to "light" or "neon"
+2. Set color to bright cyan
+3. Set size to 1.0
+4. Draw the text "HELLO"
 
-## 🌸 Exemple 4 : Fleur géométrique
+## 🌸 Example 4: Geometric Flower
 
-"Crée une fleur géométrique avec 12 pétales"
+"Create a geometric flower with 12 petals"
 
-Étapes :
-1. Définir la couleur en rose
-2. Positionner le pinceau au centre (0, 0, 0)
-3. Pour i de 0 à 11 :
-   - Dessiner un polygone à 4 côtés (losange)
-   - Tourner le pinceau de 30 degrés autour de Y
-   - Répéter
+Steps:
+1. Set color to pink
+2. Position brush at center (0, 0, 0)
+3. For i from 0 to 11:
+   - Draw a 4-sided polygon (diamond)
+   - Rotate brush 30 degrees around Y
+   - Repeat
 
-## 🌀 Exemple 5 : Spirale ascendante
+## 🌀 Example 5: Ascending Spiral
 
-"Dessine une spirale qui monte vers le ciel"
+"Draw a spiral that goes up to the sky"
 
-Étapes :
-1. Définir le pinceau en "ink", couleur bleue
-2. Position de départ : (0, 0, 0)
-3. Pour 100 itérations :
-   - Activer le dessin forcé
-   - Translater (0.1, 0.05, 0) - avance et monte
-   - Tourner de 10 degrés autour de Y
-   - Dessiner une petite ligne
+Steps:
+1. Set brush to "ink", blue color
+2. Starting position: (0, 0, 0)
+3. For 100 iterations:
+   - Enable forced drawing
+   - Translate (0.1, 0.05, 0) - advance and go up
+   - Rotate 10 degrees around Y
+   - Draw a small line
 
-## 🎯 Exemple 6 : Cible concentrique
+## 🎯 Example 6: Concentric Target
 
-"Crée une cible avec cercles concentriques de couleurs alternées"
+"Create a target with concentric circles of alternating colors"
 
-Étapes :
-1. Pour rayon de 5 à 1 (décroissant de 1) :
-   - Alterner couleur entre rouge et blanc
-   - Dessiner un polygone à 32 côtés (cercle)
-   - Changer la taille du pinceau
+Steps:
+1. For radius from 5 to 1 (decreasing by 1):
+   - Alternate color between red and white
+   - Draw a 32-sided polygon (circle)
+   - Change brush size
 
-## 🏛️ Exemple 7 : Temple avec colonnes
+## 🏛️ Example 7: Temple with Columns
 
-"Construis un temple grec avec 6 colonnes"
+"Build a Greek temple with 6 columns"
 
-Étapes :
-1. Créer le sol : rectangle plat
-2. Pour chaque colonne (6 colonnes espacées) :
-   - Importer un guide capsule
-   - Positionner verticalement
-   - Étirer en hauteur (scale)
-3. Créer le toit : grand rectangle au-dessus
+Steps:
+1. Create floor: flat rectangle
+2. For each column (6 spaced columns):
+   - Import a capsule guide
+   - Position vertically
+   - Stretch in height (scale)
+3. Create roof: large rectangle above
 
-## 🎨 Exemple 8 : Palette de couleurs
+## 🎨 Example 8: Color Palette
 
-"Crée une palette montrant toutes les couleurs primaires et secondaires"
+"Create a palette showing all primary and secondary colors"
 
-Étapes :
-1. Définir les couleurs : rouge, jaune, bleu, vert, orange, violet
-2. Pour chaque couleur, à des positions espacées :
-   - Changer la couleur
-   - Dessiner un carré (polygone à 4 côtés)
+Steps:
+1. Define colors: red, yellow, blue, green, orange, purple
+2. For each color, at spaced positions:
+   - Change color
+   - Draw a square (4-sided polygon)
 
-## 🌳 Exemple 9 : Arbre fractal simple
+## 🌳 Example 9: Simple Fractal Tree
 
-"Dessine un arbre fractal à 3 niveaux"
+"Draw a fractal tree with 3 levels"
 
-Étapes :
-1. Fonction récursive de branche :
-   - Dessiner une ligne (tronc)
-   - Si niveau > 0 :
-     - Tourner de +30 degrés
-     - Appeler récursivement avec niveau-1
-     - Tourner de -60 degrés
-     - Appeler récursivement avec niveau-1
-     - Tourner de +30 degrés (remettre)
+Steps:
+1. Recursive branch function:
+   - Draw a line (trunk)
+   - If level > 0:
+     - Rotate +30 degrees
+     - Recursively call with level-1
+     - Rotate -60 degrees
+     - Recursively call with level-1
+     - Rotate +30 degrees (reset)
 
-## 🎪 Exemple 10 : Scène de système solaire
+## 🎪 Example 10: Solar System Scene
 
-"Crée un mini système solaire avec le Soleil et 3 planètes"
+"Create a mini solar system with the Sun and 3 planets"
 
-Étapes :
-1. Soleil :
-   - Couleur jaune, pinceau "fire"
-   - Grande sphère au centre (guide sphere)
-2. Pour chaque planète (3 planètes) :
-   - Couleur différente (bleu, rouge, vert)
-   - Guide sphere de taille décroissante
-   - Positionner en orbite autour du soleil
-   - Distance croissante
+Steps:
+1. Sun:
+   - Yellow color, "fire" brush
+   - Large sphere at center (sphere guide)
+2. For each planet (3 planets):
+   - Different color (blue, red, green)
+   - Sphere guide of decreasing size
+   - Position in orbit around sun
+   - Increasing distance
 
-## 📦 Exemple 11 : Boîte avec décoration
+## 📦 Example 11: Gift Box with Decoration
 
-"Dessine une boîte cadeau avec un ruban"
+"Draw a gift box with a ribbon"
 
-Étapes :
-1. Créer un guide cube pour la boîte
-2. Couleur rouge pour le ruban
-3. Dessiner deux lignes qui se croisent sur le dessus
-4. Ajouter un nœud (deux boucles) au centre
+Steps:
+1. Create a cube guide for the box
+2. Red color for the ribbon
+3. Draw two crossing lines on top
+4. Add a knot (two loops) at center
 
-## 🌊 Exemple 12 : Vagues océaniques
+## 🌊 Example 12: Ocean Waves
 
-"Crée des vagues stylisées"
+"Create stylized ocean waves"
 
-Étapes :
-1. Pinceau "ink" bleu clair
-2. Pour 5 vagues :
-   - Dessiner une courbe sinusoïdale (chemin SVG ou points)
-   - Position Y légèrement différente
-   - Transparence variable
+Steps:
+1. "ink" brush light blue
+2. For 5 waves:
+   - Draw a sinusoidal curve (SVG path or points)
+   - Slightly different Y position
+   - Variable transparency
 
-## 💫 Exemple 13 : Constellation d'étoiles
+## 💫 Example 13: Star Constellation
 
-"Dessine une constellation avec 10 étoiles connectées"
+"Draw a constellation with 10 connected stars"
 
-Étapes :
-1. Créer 10 points aléatoires dans l'espace
-2. Dessiner des petites étoiles (polygones à 5 branches) à chaque point
-3. Connecter certaines étoiles avec des lignes fines
+Steps:
+1. Create 10 random points in space
+2. Draw small stars (5-pointed polygons) at each point
+3. Connect certain stars with thin lines
 
-## 🏰 Exemple 14 : Château simple
+## 🏰 Example 14: Simple Castle
 
-"Construis un château avec 4 tours d'angle"
+"Build a castle with 4 corner towers"
 
-Étapes :
-1. Murs : 4 guides cube pour les murs
-2. Tours : 4 guides cylinder aux coins
-3. Créneaux : petits cubes sur le haut des murs
-4. Porte : guide capsule horizontal au centre
+Steps:
+1. Walls: 4 cube guides for walls
+2. Towers: 4 cylinder guides at corners
+3. Battlements: small cubes on top of walls
+4. Door: horizontal capsule guide at center
 
-## 🎼 Exemple 15 : Portée musicale avec notes
+## 🎼 Example 15: Musical Staff with Notes
 
-"Dessine une portée musicale avec quelques notes"
+"Draw a musical staff with some notes"
 
-Étapes :
-1. Dessiner 5 lignes horizontales parallèles (portée)
-2. Ajouter une clé de sol (SVG path ou dessin manuel)
-3. Placer des notes (ellipses) sur la portée
-
----
-
-## 💡 Conseils pour créer vos propres scripts
-
-1. **Planifiez d'abord** : Décomposez votre idée en étapes simples
-2. **Utilisez les coordonnées** : Comprenez le système (Y vers le haut)
-3. **Testez progressivement** : Créez étape par étape
-4. **Sauvegardez régulièrement** : Utilisez `save_as` souvent
-5. **Expérimentez** : Essayez différents pinceaux et couleurs
-6. **Combinez les guides** : Mélangez cubes, sphères, capsules
-7. **Utilisez la symétrie** : Pour des motifs répétitifs
-8. **Pensez en 3D** : N'oubliez pas l'axe Z !
+Steps:
+1. Draw 5 parallel horizontal lines (staff)
+2. Add a treble clef (SVG path or manual drawing)
+3. Place notes (ellipses) on the staff
 
 ---
 
-## 🎯 Demandes exemple à faire à Claude
+## 💡 Tips for creating your own scripts
 
-Voici comment formuler vos demandes :
+1. **Plan first**: Break down your idea into simple steps
+2. **Use coordinates**: Understand the system (Y up)
+3. **Test gradually**: Create step by step
+4. **Save regularly**: Use `save_as` often
+5. **Experiment**: Try different brushes and colors
+6. **Combine guides**: Mix cubes, spheres, capsules
+7. **Use symmetry**: For repetitive patterns
+8. **Think in 3D**: Don't forget the Z axis!
+
+---
+
+## 🎯 Example requests to make to Claude
+
+Here's how to phrase your requests:
 
 ### Simple
-"Dessine un cube rouge de taille 2"
+"Draw a red cube of size 2"
 
-### Moyen
-"Crée une pyramide en empilant 4 niveaux de cubes, chaque niveau plus petit"
+### Medium
+"Create a pyramid by stacking 4 levels of cubes, each level smaller"
 
-### Avancé
-"Génère un mandala symétrique avec 8 axes de symétrie, utilisant des polygones de différentes tailles et couleurs alternées"
+### Advanced
+"Generate a symmetrical mandala with 8 axes of symmetry, using polygons of different sizes and alternating colors"
 
-### Très avancé
-"Crée une scène de ville miniature avec 10 bâtiments de hauteurs variables, des routes entre eux, et quelques arbres (guides capsule verts)"
+### Very Advanced
+"Create a miniature city scene with 10 buildings of variable heights, roads between them, and some trees (green capsule guides)"
 
 ---
 
-**Astuce** : Plus vous êtes précis dans votre demande, meilleur sera le résultat !
+**Tip**: The more precise you are in your request, the better the result!

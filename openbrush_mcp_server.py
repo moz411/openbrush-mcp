@@ -1,12 +1,12 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """
-Serveur MCP pour l'API Open Brush
-Expose toutes les commandes Open Brush comme des outils MCP
+MCP Server for Open Brush API
+Exposes all Open Brush commands as MCP tools
 """
 
 import asyncio
 import httpx
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from mcp.server import Server
 from mcp.types import Tool, TextContent
 import mcp.server.stdio
@@ -14,35 +14,37 @@ import mcp.server.stdio
 # Configuration
 API_BASE_URL = "http://localhost:40074/api/v1"
 
-# Création du serveur MCP
+# Create MCP server
 app = Server("openbrush-mcp")
 
 
-async def call_openbrush_api(params: Dict[str, Any]) -> str:
+async def call_openbrush_api(params: Dict[str, Any]) -> Tuple[int, str]:
     """
-    Appelle l'API Open Brush avec les paramètres fournis
+    Calls the Open Brush API with the provided parameters
+    Returns: (status_code, url_called)
     """
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
             response = await client.get(API_BASE_URL, params=params)
-            response.raise_for_status()
-            return response.text
+            # Build the complete URL for debugging
+            url = str(response.url)
+            return (response.status_code, url)
     except httpx.HTTPError as e:
-        return f"Erreur HTTP: {str(e)}"
+        return (-1, f"HTTP Error: {str(e)}")
     except Exception as e:
-        return f"Erreur: {str(e)}"
+        return (-1, f"Error: {str(e)}")
 
 
 @app.list_tools()
 async def list_tools() -> List[Tool]:
     """
-    Liste tous les outils disponibles basés sur l'API Open Brush
+    Lists all available tools based on the Open Brush API
     """
     return [
         # === DRAWING COMMANDS ===
         Tool(
             name="draw_paths",
-            description="Dessine une série de chemins à la position actuelle du pinceau",
+            description="Draws a series of paths at the current brush position",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -56,7 +58,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="draw_path",
-            description="Dessine un chemin à la position actuelle du pinceau",
+            description="Draws a path at the current brush position",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -70,7 +72,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="draw_stroke",
-            description="Dessine un trait exact avec orientation et pression",
+            description="Draws an exact stroke with orientation and pressure",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -84,35 +86,35 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="draw_polygon",
-            description="Dessine un polygone à la position actuelle du pinceau",
+            description="Draws a polygon at the current brush position",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "sides": {"type": "integer", "description": "Nombre de côtés"},
-                    "radius": {"type": "number", "description": "Rayon du polygone"},
-                    "angle": {"type": "number", "description": "Angle de rotation"}
+                    "sides": {"type": "integer", "description": "Number of sides"},
+                    "radius": {"type": "number", "description": "Polygon radius"},
+                    "angle": {"type": "number", "description": "Rotation angle"}
                 },
                 "required": ["sides", "radius", "angle"]
             }
         ),
         Tool(
             name="draw_text",
-            description="Dessine du texte à la position actuelle du pinceau",
+            description="Draws text at the current brush position",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "text": {"type": "string", "description": "Texte à dessiner"}
+                    "text": {"type": "string", "description": "Text to draw"}
                 },
                 "required": ["text"]
             }
         ),
         Tool(
             name="draw_svg_path",
-            description="Dessine un chemin SVG à la position actuelle",
+            description="Draws an SVG path at the current position",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "svg_path": {"type": "string", "description": "Chaîne de chemin SVG"}
+                    "svg_path": {"type": "string", "description": "SVG path string"}
                 },
                 "required": ["svg_path"]
             }
@@ -121,13 +123,13 @@ async def list_tools() -> List[Tool]:
         # === BRUSH COMMANDS ===
         Tool(
             name="brush_set_type",
-            description="Change le type de pinceau",
+            description="Change brush type",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "brush_type": {
                         "type": "string",
-                        "description": "Nom ou GUID du pinceau (ex: 'ink', 'marker', 'light')"
+                        "description": "Brush name or GUID (e.g. 'ink', 'marker', 'light')"
                     }
                 },
                 "required": ["brush_type"]
@@ -135,40 +137,40 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="brush_set_size",
-            description="Définit la taille du pinceau",
+            description="Sets brush size",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "size": {"type": "number", "description": "Taille du pinceau"}
+                    "size": {"type": "number", "description": "Brush size"}
                 },
                 "required": ["size"]
             }
         ),
         Tool(
             name="brush_add_size",
-            description="Modifie la taille du pinceau par un montant",
+            description="Modifies brush size by an amount",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "amount": {"type": "number", "description": "Montant à ajouter"}
+                    "amount": {"type": "number", "description": "Amount to add"}
                 },
                 "required": ["amount"]
             }
         ),
         Tool(
             name="brush_set_path_smoothing",
-            description="Définit le lissage des chemins du pinceau (0-1, défaut 0.1)",
+            description="Sets brush path smoothing (0-1, default 0.1)",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "amount": {"type": "number", "description": "Quantité de lissage (0 = aucun)"}
+                    "amount": {"type": "number", "description": "Smoothing amount (0 = none)"}
                 },
                 "required": ["amount"]
             }
         ),
         Tool(
             name="brush_move",
-            description="Déplace le pinceau à une position absolue",
+            description="Moves brush to absolute position",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -181,7 +183,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="brush_translate",
-            description="Déplace le pinceau de manière relative",
+            description="Moves brush relatively",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -194,20 +196,20 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="brush_rotate",
-            description="Définit la rotation du pinceau",
+            description="Sets brush rotation",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "x": {"type": "number", "description": "Rotation X (pitch)"},
-                    "y": {"type": "number", "description": "Rotation Y (yaw)"},
-                    "z": {"type": "number", "description": "Rotation Z (roll)"}
+                    "x": {"type": "number", "description": "X rotation (pitch)"},
+                    "y": {"type": "number", "description": "Y rotation (yaw)"},
+                    "z": {"type": "number", "description": "Z rotation (roll)"}
                 },
                 "required": ["x", "y", "z"]
             }
         ),
         Tool(
             name="brush_turn",
-            description="Tourne le pinceau de manière relative",
+            description="Turns brush relatively",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -220,11 +222,11 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="brush_draw",
-            description="Dessine une ligne droite de longueur spécifiée",
+            description="Draws a straight line of specified length",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "length": {"type": "number", "description": "Longueur de la ligne"}
+                    "length": {"type": "number", "description": "Line length"}
                 },
                 "required": ["length"]
             }
@@ -233,7 +235,7 @@ async def list_tools() -> List[Tool]:
         # === COLOR COMMANDS ===
         Tool(
             name="color_set_rgb",
-            description="Définit la couleur en RGB (0-1)",
+            description="Sets color in RGB (0-1)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -246,7 +248,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="color_set_hsv",
-            description="Définit la couleur en HSV (0-1)",
+            description="Sets color in HSV (0-1)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -259,13 +261,13 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="color_set_html",
-            description="Définit la couleur avec une valeur HTML/CSS",
+            description="Sets color with HTML/CSS value",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "color": {
                         "type": "string",
-                        "description": "Nom de couleur CSS ou valeur hex (ex: 'red', '#FF0000')"
+                        "description": "CSS color name or hex value (e.g. 'red', '#FF0000')"
                     }
                 },
                 "required": ["color"]
@@ -273,7 +275,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="color_add_rgb",
-            description="Ajoute des valeurs à la couleur actuelle (RGB)",
+            description="Adds values to current color (RGB)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -286,7 +288,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="color_add_hsv",
-            description="Ajoute des valeurs à la couleur actuelle (HSV)",
+            description="Adds values to current color (HSV)",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -301,51 +303,51 @@ async def list_tools() -> List[Tool]:
         # === MODEL COMMANDS ===
         Tool(
             name="model_import",
-            description="Importe un modèle 3D depuis Media Library/Models",
+            description="Imports a 3D model from Media Library/Models",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "filename": {"type": "string", "description": "Nom du fichier modèle"}
+                    "filename": {"type": "string", "description": "Model filename"}
                 },
                 "required": ["filename"]
             }
         ),
         Tool(
             name="model_web_import",
-            description="Importe un modèle 3D depuis une URL ou fichier local",
+            description="Imports a 3D model from URL or local file",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "url": {"type": "string", "description": "URL ou chemin du modèle"}
+                    "url": {"type": "string", "description": "Model URL or path"}
                 },
                 "required": ["url"]
             }
         ),
         Tool(
             name="model_icosa_import",
-            description="Importe un modèle depuis Icosa Gallery",
+            description="Imports a model from Icosa Gallery",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "model_id": {"type": "string", "description": "ID du modèle Icosa"}
+                    "model_id": {"type": "string", "description": "Icosa model ID"}
                 },
                 "required": ["model_id"]
             }
         ),
         Tool(
             name="model_select",
-            description="Sélectionne un modèle 3D par index",
+            description="Selects a 3D model by index",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "index": {"type": "integer", "description": "Index du modèle"}
+                    "index": {"type": "integer", "description": "Model index"}
                 },
                 "required": ["index"]
             }
         ),
         Tool(
             name="model_position",
-            description="Déplace un modèle 3D aux coordonnées données",
+            description="Moves a 3D model to given coordinates",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -359,7 +361,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="model_rotation",
-            description="Définit la rotation d'un modèle 3D",
+            description="Sets a 3D model's rotation",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -373,7 +375,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="model_scale",
-            description="Définit l'échelle d'un modèle 3D",
+            description="Sets a 3D model's scale",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -385,7 +387,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="model_delete",
-            description="Supprime un modèle 3D par index",
+            description="Deletes a 3D model by index",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -398,57 +400,57 @@ async def list_tools() -> List[Tool]:
         # === SAVE/LOAD COMMANDS ===
         Tool(
             name="save_overwrite",
-            description="Sauvegarde la scène en écrasant la dernière sauvegarde",
+            description="Saves the scene by overwriting the last save",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="save_as",
-            description="Sauvegarde la scène sous un nouveau nom",
+            description="Saves the scene with a new name",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "filename": {"type": "string", "description": "Nom du fichier (sans .tilt)"}
+                    "filename": {"type": "string", "description": "Filename (without .tilt)"}
                 },
                 "required": ["filename"]
             }
         ),
         Tool(
             name="save_new",
-            description="Sauvegarde la scène dans un nouveau slot",
+            description="Saves the scene in a new slot",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="load_user",
-            description="Charge un sketch du dossier utilisateur par index",
+            description="Loads a sketch from user folder by index",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "slot": {"type": "integer", "description": "Index (0 = plus récent)"}
+                    "slot": {"type": "integer", "description": "Index (0 = most recent)"}
                 },
                 "required": ["slot"]
             }
         ),
         Tool(
             name="load_named",
-            description="Charge un sketch par nom depuis le dossier utilisateur",
+            description="Loads a sketch by name from user folder",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "filename": {"type": "string", "description": "Nom du fichier"}
+                    "filename": {"type": "string", "description": "Filename"}
                 },
                 "required": ["filename"]
             }
         ),
         Tool(
             name="new_scene",
-            description="Crée une nouvelle scène vide",
+            description="Creates a new empty scene",
             inputSchema={"type": "object", "properties": {}}
         ),
         
         # === CAMERA COMMANDS ===
         Tool(
             name="camera_move",
-            description="Déplace la caméra à une position absolue",
+            description="Moves camera to absolute position",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -461,7 +463,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="camera_translate",
-            description="Déplace la caméra de manière relative",
+            description="Moves camera relatively",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -474,7 +476,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="camera_rotate",
-            description="Définit la rotation de la caméra",
+            description="Sets camera rotation",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -487,7 +489,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="camera_turn",
-            description="Tourne la caméra de manière relative",
+            description="Turns camera relatively",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -500,7 +502,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="spectator_move",
-            description="Déplace la caméra spectateur",
+            description="Moves spectator camera",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -515,51 +517,51 @@ async def list_tools() -> List[Tool]:
         # === SELECTION COMMANDS ===
         Tool(
             name="selection_select_all",
-            description="Sélectionne tous les traits",
+            description="Selects all strokes",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="selection_invert",
-            description="Inverse la sélection",
+            description="Inverts selection",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="selection_delete",
-            description="Supprime la sélection actuelle",
+            description="Deletes current selection",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="selection_duplicate",
-            description="Duplique la sélection actuelle",
+            description="Duplicates current selection",
             inputSchema={"type": "object", "properties": {}}
         ),
         
         # === LAYER COMMANDS ===
         Tool(
             name="layer_create",
-            description="Crée un nouveau calque",
+            description="Creates a new layer",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string", "description": "Nom du calque"}
+                    "name": {"type": "string", "description": "Layer name"}
                 },
                 "required": []
             }
         ),
         Tool(
             name="layer_set",
-            description="Définit le calque actif",
+            description="Sets active layer",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "layer": {"type": "integer", "description": "Numéro du calque"}
+                    "layer": {"type": "integer", "description": "Layer number"}
                 },
                 "required": ["layer"]
             }
         ),
         Tool(
             name="layer_show",
-            description="Affiche un calque",
+            description="Shows a layer",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -570,7 +572,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="layer_hide",
-            description="Cache un calque",
+            description="Hides a layer",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -583,14 +585,14 @@ async def list_tools() -> List[Tool]:
         # === GUIDE COMMANDS ===
         Tool(
             name="guide_add",
-            description="Ajoute un guide à la scène",
+            description="Adds a guide to the scene",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "guide_type": {
                         "type": "string",
                         "enum": ["cube", "sphere", "capsule", "cone", "ellipsoid"],
-                        "description": "Type de guide"
+                        "description": "Guide type"
                     }
                 },
                 "required": ["guide_type"]
@@ -598,7 +600,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="guide_position",
-            description="Déplace un guide aux coordonnées données",
+            description="Moves a guide to given coordinates",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -612,7 +614,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="guide_scale",
-            description="Définit l'échelle non-uniforme d'un guide",
+            description="Sets non-uniform scale of a guide",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -628,14 +630,14 @@ async def list_tools() -> List[Tool]:
         # === SYMMETRY COMMANDS ===
         Tool(
             name="symmetry_mode",
-            description="Définit le mode de symétrie",
+            description="Sets symmetry mode",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "mode": {
                         "type": "string",
                         "enum": ["none", "single", "double", "quad", "radial"],
-                        "description": "Mode de symétrie"
+                        "description": "Symmetry mode"
                     }
                 },
                 "required": ["mode"]
@@ -643,7 +645,7 @@ async def list_tools() -> List[Tool]:
         ),
         Tool(
             name="symmetry_position",
-            description="Déplace le widget de symétrie",
+            description="Moves symmetry widget",
             inputSchema={
                 "type": "object",
                 "properties": {
@@ -658,17 +660,17 @@ async def list_tools() -> List[Tool]:
         # === UTILITY COMMANDS ===
         Tool(
             name="undo",
-            description="Annule la dernière action",
+            description="Undoes last action",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="redo",
-            description="Refait la dernière action annulée",
+            description="Redoes last undone action",
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
             name="show_help",
-            description="Affiche l'aide de l'API",
+            description="Shows API help",
             inputSchema={"type": "object", "properties": {}}
         ),
     ]
@@ -677,10 +679,10 @@ async def list_tools() -> List[Tool]:
 @app.call_tool()
 async def call_tool(name: str, arguments: Any) -> List[TextContent]:
     """
-    Gère les appels d'outils et les traduit en appels API Open Brush
+    Handles tool calls and translates them to Open Brush API calls
     """
     
-    # Mapping des noms d'outils vers les commandes API
+    # Mapping of tool names to API commands
     command_map = {
         # Drawing
         "draw_paths": lambda args: {"draw.paths": args["paths"]},
@@ -769,28 +771,34 @@ async def call_tool(name: str, arguments: Any) -> List[TextContent]:
     }
     
     if name not in command_map:
-        return [TextContent(type="text", text=f"Outil inconnu: {name}")]
+        return [TextContent(type="text", text=f"Unknown tool: {name}")]
     
     try:
-        # Convertir les arguments en paramètres API
+        # Convert arguments to API parameters
         params = command_map[name](arguments)
         
-        # Appeler l'API Open Brush
-        result = await call_openbrush_api(params)
+        # Call Open Brush API
+        status_code, url = await call_openbrush_api(params)
         
-        return [TextContent(
-            type="text",
-            text=f"Commande exécutée avec succès: {name}\nRésultat: {result}"
-        )]
+        if status_code == 200:
+            return [TextContent(
+                type="text",
+                text=f"✓ Command executed: {name}"
+            )]
+        else:
+            return [TextContent(
+                type="text",
+                text=f"✗ Failed (HTTP {status_code}): {name}"
+            )]
     except Exception as e:
         return [TextContent(
             type="text",
-            text=f"Erreur lors de l'exécution de {name}: {str(e)}"
+            text=f"Error executing {name}: {str(e)}"
         )]
 
 
 async def main():
-    """Point d'entrée principal du serveur MCP"""
+    """Main entry point for MCP server"""
     async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
         await app.run(
             read_stream,
@@ -801,3 +809,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
