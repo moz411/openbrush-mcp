@@ -200,3 +200,4 @@ N'hésitez pas à :
 ---
 
 **Note** : Open Brush est un fork open-source de Tilt Brush de Google. Ce serveur MCP n'est pas affilié officiellement à Open Brush.
+
