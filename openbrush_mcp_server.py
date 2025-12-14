@@ -5,16 +5,15 @@ Exposes all Open Brush commands as MCP tools
 """
 
 import httpx
-import json
 from typing import Any, Dict, Tuple
 from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp.prompts import base
 
 # Configuration
 API_BASE_URL = "http://localhost:40074"
 
 # Create MCP server
 mcp = FastMCP("openbrush", json_response=True)
-
 
 def call_openbrush_api(params: Dict[str, Any]) -> Tuple[int, str]:
     """
@@ -45,6 +44,7 @@ def list_brushes() -> Dict[str, Any]:
     else:
         return {"status": "Failed to retrieve brush list", "url": url}
 
+### Drawing commands
 @mcp.tool()
 def draw_paths(paths: str) -> str:
     """Draws a series of paths at the current brush position"""
@@ -87,16 +87,6 @@ def draw_polygon(sides: int, radius: float, angle: float) -> str:
         return "✓ Command executed: draw_polygon"
     else:
         return f"✗ Failed (HTTP {status_code}): draw_polygon"
-
-@mcp.tool()
-def draw_svg_path(svg_path: str) -> str:
-    """Draws an SVG path at the current position"""
-    params = {"draw.svg.path": svg_path}
-    status_code, url =  call_openbrush_api(params)
-    if status_code == 200:
-        return "✓ Command executed: draw_svg_path"
-    else:
-        return f"✗ Failed (HTTP {status_code}): draw_svg_path"
 
 
 # Brush commands
@@ -643,7 +633,6 @@ def show_help() -> str:
         return "✓ Command executed: show_help"
     else:
         return f"✗ Failed (HTTP {status_code}): show_help"
-
 
 if __name__ == "__main__":
     mcp.run()
