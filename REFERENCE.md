@@ -11,7 +11,7 @@ Draw multiple paths
 ```
 
 ### draw_path
-Draw a simple path
+Draw a simple path using comma-separated XYZ triplets (e.g. `[0,0,0],[0,1,0],[1,1,0]`). This is not an SVG path string.
 ```json
 {
   "path": "[0,0,0],[1,0,0],[1,1,0]"

@@ -59,7 +59,7 @@ The server exposes many tools organized by category:
 
 ### 🎨 Drawing
 - `draw_paths` - Draw multiple paths
-- `draw_path` - Draw a simple path
+- `draw_path` - Draw a simple path using comma-separated XYZ triplets (e.g. `[0,0,0],[0,1,0],[1,1,0]`, not SVG)
 - `draw_stroke` - Draw a stroke with orientation and pressure
 - `draw_polygon` - Draw a polygon
 - `draw_text` - Draw text
