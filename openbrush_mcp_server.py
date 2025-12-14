@@ -58,7 +58,7 @@ def draw_paths(paths: str) -> str:
 
 @mcp.tool()
 def draw_path(path: str) -> str:
-    """Draws a path at the current brush position"""
+    """Draws a path at the current brush position using comma-separated XYZ triplets (e.g. `[0,0,0],[0,1,0]`), not an SVG path string"""
     params = {"draw.path": path}
     status_code, url =  call_openbrush_api(params)
     if status_code == 200:
